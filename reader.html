@@ -1,1 +1,583 @@
-PLACEHOLDER_WILL_REPLACE
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Сияющий Дух Эфи Верховный</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Roboto+Slab:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-top:#030712; --bg-mid:#030712; --bg-bot:#030712;
+  --text:#e0f2fe; --text-bright:1; --font-size:20px; --line-height:1.85;
+  --font:'Lora',serif; --weight:400; --stroke:0px; --stroke-color:#38bdf8;
+  --accent:#38bdf8; --align:left; --content-width:42rem;
+  --fx-bright:1;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overscroll-behavior:none;background:#030712}
+body{
+  font-family:Inter,system-ui,sans-serif; color:var(--text);
+  background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-mid) 50%, var(--bg-bot) 100%);
+  background-attachment: fixed;
+  transition: background 1.2s ease;
+  overflow:hidden;
+  overscroll-behavior:none;
+}
+.font-cinzel{font-family:Cinzel,serif}
+#fx{position:fixed;inset:0;z-index:0;pointer-events:none}
+#top-bar{transition:opacity .4s,transform .4s}
+body.fullscreen #top-bar{opacity:0;pointer-events:none;transform:translateY(-100%)}
+body.fullscreen.show-ui #top-bar{opacity:1;pointer-events:auto;transform:translateY(0)}
+#settings-panel{transition:transform .32s cubic-bezier(.22,1,.36,1)}
+#settings-panel.open{transform:translateX(0)!important}
+#chapters-panel{transition:transform .32s cubic-bezier(.22,1,.36,1)}
+#chapters-panel.open{transform:translateX(0)!important}
+#settings-backdrop{opacity:0;pointer-events:none;transition:opacity .3s}
+#settings-backdrop.open{opacity:1;pointer-events:auto}
+
+.reader-text{
+  font-family:var(--font);
+  font-size:var(--font-size);
+  font-weight:var(--weight);
+  line-height:var(--line-height);
+  color:var(--text);
+  -webkit-text-stroke:var(--stroke) var(--stroke-color);
+  text-align:var(--align);
+  max-width:var(--content-width);
+  margin-left:auto;margin-right:auto;
+  filter:brightness(var(--text-bright));
+}
+.reader-text p{
+  margin:0 0 1.75em;
+  transform-origin:center top;
+  will-change:transform,opacity;
+  opacity:0.42;
+  transform:scale(0.98);
+  backface-visibility:hidden;
+}
+.reader-text p:first-of-type::first-letter{
+  font-family:Cinzel,serif;
+  font-size:3.1em;
+  float:left;
+  line-height:.8;
+  padding-right:.08em;
+  color:var(--accent);
+  font-weight:600;
+  -webkit-text-stroke:0;
+}
+.fx-sand{display:inline-block;transition:color .7s, text-shadow .7s, letter-spacing .7s, filter .7s}
+.fx-sand.on{
+  color:#fbbf24;
+  text-shadow:0 0 8px rgba(251,191,36,.7),0 0 16px rgba(202,138,4,.4);
+  letter-spacing:.06em;
+  filter:brightness(1.15);
+}
+.fx-shake{display:inline-block}
+.fx-shake.on{animation:shake .45s ease-in-out}
+@keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-2px)}70%{transform:translateX(2px)}}
+.fx-glow{display:inline-block;transition:color .55s,text-shadow .55s}
+.fx-glow.on{color:#7dd3fc;text-shadow:0 0 12px #38bdf8,0 0 22px #0ea5e9}
+.fx-blood{display:inline-block;transition:color .55s,text-shadow .55s}
+.fx-blood.on{color:#f87171;text-shadow:0 0 10px #ef4444,0 0 20px #dc2626}
+.fx-moon{display:inline-block;transition:color .65s,text-shadow .65s}
+.fx-moon.on{color:#f8fafc;text-shadow:0 0 14px #e0f2fe,0 0 28px #bae6fd,0 0 40px #7dd3fc}
+
+.reader-text.float-mode p{
+  animation:gentleFloat 6s ease-in-out infinite;
+}
+@keyframes gentleFloat{
+  0%,100%{transform:translateY(0) scale(var(--p-scale,0.98))}
+  50%{transform:translateY(-3px) scale(var(--p-scale,0.98))}
+}
+
+.font-option.active,.theme-btn.active,.align-btn.active,.mode-btn.active{
+  background:rgba(14,165,233,.22)!important;border-color:rgba(56,189,248,.5)!important
+}
+input[type=range]{accent-color:#38bdf8}
+input[type=color]{width:32px;height:26px;border:none;border-radius:5px;background:transparent;cursor:pointer;padding:0}
+.color-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.color-row label{flex:1;font-size:12px;color:#94a3b8}
+.section{border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:12px;margin-bottom:4px}
+.section-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:8px 0;user-select:none}
+.section-head h3{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin:0}
+.section-body{display:none;padding-top:6px}
+.section.open .section-body{display:block}
+.section.open .chev{transform:rotate(180deg)}
+.chev{transition:transform .25s;color:#64748b;font-size:12px}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas>
+<div id="settings-backdrop" class="fixed inset-0 bg-black/40 z-40"></div>
+
+<header id="top-bar" class="fixed top-0 inset-x-0 z-40 bg-black/45 backdrop-blur-xl border-b border-white/5">
+  <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3 min-w-0">
+      <a href="index.html" class="text-slate-400 hover:text-sky-300 text-sm">←</a>
+      <div class="min-w-0">
+        <div class="font-cinzel text-sm text-white truncate">Сияющий Дух Эфи Верховный</div>
+        <div class="text-[11px] text-sky-400/80 truncate" id="ch-label">Глава I · Пробуждение Эфира</div>
+      </div>
+    </div>
+    <div class="flex items-center gap-1">
+      <button id="btn-ch" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white text-lg">☰</button>
+      <button id="btn-set" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white text-lg">⚙</button>
+      <button id="btn-fs" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white text-lg">⛶</button>
+    </div>
+  </div>
+</header>
+
+<aside id="chapters-panel" class="fixed top-0 left-0 h-full w-72 bg-[#071018]/97 backdrop-blur-2xl border-r border-sky-500/15 z-50 -translate-x-full overflow-y-auto">
+  <div class="p-5">
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="font-cinzel text-lg text-white">Главы</h2>
+      <button id="close-ch" class="text-slate-400 hover:text-white text-lg">✕</button>
+    </div>
+    <div class="space-y-1">
+      <button class="ch-item active w-full text-left px-4 py-3 rounded-xl border border-sky-500/30 bg-sky-900/30" data-ch="1">
+        <span class="text-xs text-sky-400">Глава I</span>
+        <p class="text-sm text-white mt-0.5">Пробуждение Эфира</p>
+      </button>
+      <button class="ch-item w-full text-left px-4 py-3 rounded-xl border border-transparent hover:bg-white/5" data-ch="2">
+        <span class="text-xs text-slate-500">Глава II</span>
+        <p class="text-sm text-slate-300 mt-0.5">Первый Рассвет</p>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<aside id="settings-panel" class="fixed top-0 right-0 h-full w-[21rem] max-w-[92vw] bg-[#071018]/97 backdrop-blur-2xl border-l border-sky-500/15 z-50 translate-x-full overflow-y-auto overscroll-contain">
+  <div class="p-4 pb-10">
+    <div class="flex items-center justify-between mb-3">
+      <h2 class="font-cinzel text-lg text-white">Настройки</h2>
+      <button id="close-set" class="text-slate-400 hover:text-white text-lg p-1">✕</button>
+    </div>
+    <p class="text-[11px] text-slate-500 mb-4">Свайп вправо или тап вне панели — закрыть</p>
+
+    <div class="section open" data-sec="text">
+      <div class="section-head"><h3>Текст</h3><span class="chev">▼</span></div>
+      <div class="section-body space-y-3">
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Размер</label>
+          <div class="flex items-center gap-2">
+            <button id="fs-down" class="w-8 h-8 rounded-lg bg-white/5 text-xs">A−</button>
+            <input type="range" id="fs" min="15" max="28" value="20" class="flex-1">
+            <button id="fs-up" class="w-8 h-8 rounded-lg bg-white/5 text-xs">A+</button>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Жирность</label>
+          <input type="range" id="weight" min="300" max="700" step="100" value="400" class="w-full">
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Межстрочный</label>
+          <input type="range" id="lh" min="1.4" max="2.3" step="0.05" value="1.85" class="w-full">
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Ширина строки (зум)</label>
+          <input type="range" id="width" min="18" max="48" value="42" class="w-full">
+          <div class="flex justify-between text-[10px] text-slate-600"><span>Узко / ближе</span><span>Широко</span></div>
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Выравнивание</label>
+          <div class="flex gap-1.5">
+            <button class="align-btn active flex-1 py-1.5 rounded-lg border border-sky-500/40 text-xs" data-a="left">Слева</button>
+            <button class="align-btn flex-1 py-1.5 rounded-lg border border-white/10 text-xs" data-a="center">Центр</button>
+            <button class="align-btn flex-1 py-1.5 rounded-lg border border-white/10 text-xs" data-a="justify">По ширине</button>
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Цвет текста</label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="text-color" value="#e0f2fe">
+            <input type="range" id="text-bright" min="0.55" max="1.3" step="0.05" value="1" class="flex-1" title="Яркость">
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Обводка</label>
+          <div class="flex items-center gap-2">
+            <input type="range" id="stroke" min="0" max="1.2" step="0.1" value="0" class="flex-1">
+            <input type="color" id="stroke-color" value="#38bdf8">
+          </div>
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Шрифт</label>
+          <div class="space-y-1 max-h-28 overflow-y-auto" id="font-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" data-sec="atm">
+      <div class="section-head"><h3>Атмосфера</h3><span class="chev">▼</span></div>
+      <div class="section-body space-y-3">
+        <div class="color-row"><label>Верх</label><input type="color" id="bg-top" value="#030712"></div>
+        <div class="color-row"><label>Середина</label><input type="color" id="bg-mid" value="#030712"></div>
+        <div class="color-row"><label>Низ</label><input type="color" id="bg-bot" value="#030712"></div>
+        <div class="grid grid-cols-3 gap-1">
+          <button class="theme-btn active px-1 py-1.5 rounded-lg border border-sky-500/40 text-[10px]" data-theme="flame">Пламя</button>
+          <button class="theme-btn px-1 py-1.5 rounded-lg border border-white/10 text-[10px]" data-theme="cosmic">Космос</button>
+          <button class="theme-btn px-1 py-1.5 rounded-lg border border-white/10 text-[10px]" data-theme="winter">Лёд</button>
+          <button class="theme-btn px-1 py-1.5 rounded-lg border border-white/10 text-[10px]" data-theme="ember">Рассвет</button>
+          <button class="theme-btn px-1 py-1.5 rounded-lg border border-white/10 text-[10px]" data-theme="mist">Туман</button>
+          <button class="theme-btn px-1 py-1.5 rounded-lg border border-white/10 text-[10px]" data-theme="void">Пустота</button>
+        </div>
+        <label class="flex items-center justify-between text-sm cursor-pointer">
+          <span>Авто по главам</span>
+          <input type="checkbox" id="auto-theme" checked class="w-4 h-4 accent-sky-400">
+        </label>
+      </div>
+    </div>
+
+    <div class="section" data-sec="fx">
+      <div class="section-head"><h3>Эффекты</h3><span class="chev">▼</span></div>
+      <div class="section-body space-y-3">
+        <label class="flex items-center justify-between text-sm cursor-pointer">
+          <span>Плавный фокус</span>
+          <input type="checkbox" id="focus-mode" checked class="w-4 h-4 accent-sky-400">
+        </label>
+        <label class="flex items items-center justify-between text-sm cursor-pointer">
+          <span>Частицы (огонь и др.)</span>
+          <input type="checkbox" id="particles" checked class="w-4 h-4 accent-sky-400">
+        </label>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Интенсивность частиц</label>
+          <input type="range" id="intensity" min="0" max="45" value="18" class="w-full">
+        </div>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Цвет частиц</label>
+          <div class="flex items-center gap-2">
+            <input type="color" id="part-color" value="#38bdf8">
+            <div class="flex gap-1">
+              <button class="w-5 h-5 rounded-full bg-sky-400 border border-white/20" data-c="#38bdf8"></button>
+              <button class="w-5 h-5 rounded-full bg-cyan-300 border border-white/20" data-c="#67e8f9"></button>
+              <button class="w-5 h-5 rounded-full bg-amber-400 border border-white/20" data-c="#fbbf24"></button>
+              <button class="w-5 h-5 rounded-full bg-rose-400 border border-white/20" data-c="#fb7185"></button>
+            </div>
+          </div>
+        </div>
+        <label class="flex items-center justify-between text-sm cursor-pointer">
+          <span>Эффекты слов</span>
+          <input type="checkbox" id="word-fx" checked class="w-4 h-4 accent-sky-400">
+        </label>
+        <div>
+          <label class="text-[11px] text-slate-500 mb-1 block">Режим текста</label>
+          <div class="flex gap-1.5">
+            <button class="mode-btn active flex-1 py-1.5 rounded-lg border border-sky-500/40 text-[11px]" data-m="still">Покой</button>
+            <button class="mode-btn flex-1 py-1.5 rounded-lg border border-white/10 text-[11px]" data-m="float">Парение</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<main id="main" class="relative z-10 h-screen overflow-y-auto pt-16 pb-20" style="overscroll-behavior:none;-webkit-overflow-scrolling:touch">
+  <article class="mx-auto px-5 py-10" style="max-width:var(--content-width)">
+    <div class="text-center mb-11">
+      <p class="text-sky-400/70 text-sm tracking-[0.2em] uppercase mb-2" id="ch-num">Глава I</p>
+      <h2 class="font-cinzel text-3xl sm:text-4xl text-white mb-3" id="ch-title">Пробуждение Эфира</h2>
+      <div class="w-14 h-px bg-gradient-to-r from-transparent via-sky-400/50 to-transparent mx-auto"></div>
+    </div>
+    <div id="content" class="reader-text"></div>
+    <div class="mt-12 pt-7 border-t border-white/10 flex items-center justify-between">
+      <button id="prev" class="px-4 py-2 rounded-full border border-white/10 text-sm text-slate-500 disabled:opacity-30" disabled>← Назад</button>
+      <span class="text-xs text-slate-600"><span id="cur">1</span> / 2</span>
+      <button id="next" class="px-4 py-2 rounded-full bg-sky-600/25 border border-sky-400/40 text-sky-200 text-sm">Далее →</button>
+    </div>
+  </article>
+</main>
+
+<div class="fixed bottom-0 inset-x-0 h-1 bg-white/5 z-40">
+  <div id="prog" class="h-full bg-gradient-to-r from-sky-500 to-cyan-400" style="width:0%;transition:width .12s linear"></div>
+</div>
+
+<script>
+const FONTS=[
+  {name:'Lora',val:"'Lora',serif"},{name:'Merriweather',val:"'Merriweather',serif"},
+  {name:'Playfair',val:"'Playfair Display',serif"},{name:'Cormorant',val:"'Cormorant Garamond',serif"},
+  {name:'EB Garamond',val:"'EB Garamond',serif"},{name:'Literata',val:"'Literata',serif"},
+  {name:'Source Serif',val:"'Source Serif 4',serif"},{name:'Crimson Pro',val:"'Crimson Pro',serif"},
+  {name:'Libre Baskerville',val:"'Libre Baskerville',serif"},{name:'Spectral',val:"'Spectral',serif"},
+  {name:'PT Serif',val:"'PT Serif',serif"},{name:'Noto Serif',val:"'Noto Serif',serif"},
+  {name:'Roboto Slab',val:"'Roboto Slab',serif"},{name:'Cinzel',val:"'Cinzel',serif"},{name:'Inter',val:"'Inter',sans-serif"}
+];
+const PRESETS={
+  flame:{top:'#030712',mid:'#051525',bot:'#0a1a2e'},
+  cosmic:{top:'#020617',mid:'#0c1222',bot:'#111827'},
+  winter:{top:'#0a1219',mid:'#0f1c28',bot:'#132433'},
+  ember:{top:'#120a06',mid:'#1c1008',bot:'#27180c'},
+  mist:{top:'#061214',mid:'#0a1a1c',bot:'#0e2224'},
+  void:{top:'#000000',mid:'#050508',bot:'#0a0a0f'}
+};
+const chapters={
+  1:{num:"Глава I",title:"Пробуждение Эфира",theme:"flame",
+    html:`<p>Эфир заполнял поднебесье. Оно было настолько безграничным, что мы сами казались карликами в этом титаническом мире.</p>
+<p>Мир, в котором <span class="fx-moon">белая Луна</span> не была одинока, рядом с ней было ещё десять таких же огромных соседей, и все они отличались по цвету и каждая из них была настолько великолепна и велика, что казалось — каждая из них не просто светится, а распространяет свою ауру по поверхности этой планеты, для которой даже такие махины были карликами.</p>
+<p>Но это было не всё.<br>Кроме десяти главных были сотни и тысячи поменьше, и многие из них уже были не одного конкретного цвета, а связью двух, трёх и более цветов.</p>
+<p>Из-за чего это ночное время казалось скорее не временем тишины и покоя, а <span class="fx-glow">церемониальным</span>.<br>Словно на тебя смотрят миллионы чьих-то глаз, оценивающих — достоин ты, или нет.</p>
+<p>Кто-то с жаждой <span class="fx-blood">убийства</span>.<br>Кто-то с интересом или пренебрежением.<br>Словно для кого-то это всё игра и забава, а для иных — нечто серьёзное. И именно такую нешуточную и опасную ауру имела главная <span class="fx-moon">белая Луна</span>.</p>
+<p>Но медленно, несмотря на масштабы самого титанического мира из возможных, луны ушли за горизонт. Их свет сменился сотнями тысяч солнечных. В той же системе — десять главных, у каждого свой цвет, и миллионы по убыванию в размере, с разной палитрой цветов.</p>
+<p style="color:#fde68a;font-style:italic">Лунный свет сменился солнечным.</p>
+<p>Первые лучи коснулись вершин далёких хребтов, и мир на мгновение замер — будто сам эфир затаил дыхание. Воздух стал плотнее, тяжелее. В нём появился вкус металла и чего-то древнего, почти забытого.</p>
+<p>Там, где ещё мгновение назад царила церемониальная тьма, теперь разливалось мягкое, но неотвратимое сияние. Оно не было похоже на обычный рассвет. Оно было <em>осознанным</em>.</p>
+<p>Я стоял на краю обсидиановой платформы и смотрел, как десять новых светил поднимаются над горизонтом один за другим — каждый своего оттенка. Кроваво-красный. Холодный бирюзовый. Ядовито-зелёный. Золотой, почти ослепительный. Фиолетовый, будто сгусток самой ночи.</p>
+<p>И где-то между ними — едва заметная, почти прозрачная — та, что светила мягче всех. Та, что смотрела прямо на меня.</p>
+<p>Под ногами хрустел чёрный <span class="fx-sand">песок</span>. Каждый шаг оставлял след, который медленно затягивался, будто поверхность дышала.</p>`},
+  2:{num:"Глава II",title:"Первый Рассвет",theme:"ember",
+    html:`<p>Свет не просто осветил мир — он <span class="fx-shake">изменил</span> его.</p>
+<p>Там, где раньше лежала холодная тьма, теперь ползли длинные тени. Они были живыми. Двигались не так, как должны двигаться тени от солнца. Они тянулись к источникам света, словно хотели поглотить их.</p>
+<p style="color:#fde68a;font-style:italic">Один из красных солнец вспыхнул ярче. На секунду весь горизонт окрасился в цвет <span class="fx-blood">крови</span> и раскалённого металла.</p>
+<p>Я почувствовал тепло на коже. Настоящее, обжигающее. Эфир вокруг начал дрожать — мелкая вибрация, которую скорее чувствуешь костями, чем слышишь.</p>
+<p>Где-то далеко, за линией хребтов, что-то огромное медленно поднялось. Слишком большое, чтобы быть живым существом. Слишком правильное, чтобы быть горой.</p>
+<p>И в этот момент я понял: рассвет здесь — не начало дня.<br>Это начало охоты.</p>
+<p><span class="fx-moon">Белая Луна</span>, даже уйдя за горизонт, всё ещё смотрела. Я чувствовал её взгляд затылком.</p>`}
+};
+
+let cur=1,theme='flame',particlesOn=true,intensity=18,focusMode=true,autoTheme=true,wordFx=true,textMode='still';
+let partColor={r:56,g:189,b:248};
+const canvas=document.getElementById('fx'),ctx=canvas.getContext('2d',{alpha:true});
+let w,h,parts=[],paras=[],rafFocus=null;
+
+const fontList=document.getElementById('font-list');
+FONTS.forEach((f,i)=>{
+  const b=document.createElement('button');
+  b.className='font-option w-full text-left px-2.5 py-1.5 rounded-lg border border-white/10 text-xs'+(i===0?' active':'');
+  b.style.fontFamily=f.val;b.textContent=f.name;
+  b.onclick=()=>{document.querySelectorAll('.font-option').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.documentElement.style.setProperty('--font',f.val)};
+  fontList.appendChild(b);
+});
+
+document.querySelectorAll('.section-head').forEach(h=>{
+  h.onclick=()=>h.parentElement.classList.toggle('open');
+});
+
+function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight;initParts()}
+class Part{
+  constructor(t){this.t=t;this.reset(true)}
+  reset(init){
+    this.x=Math.random()*w;this.y=init?Math.random()*h:(this.t==='ember'||this.t==='flame'?h+5:-8);
+    if(this.t==='winter'){this.s=Math.random()*1.6+.4;this.vy=Math.random()*.6+.18;this.vx=(Math.random()-.5)*.3;this.o=Math.random()*.22+.08;this.ph=Math.random()*6.28}
+    else if(this.t==='ember'||this.t==='flame'){this.s=Math.random()*1.7+.4;this.vy=-(Math.random()*1+.25);this.vx=(Math.random()-.5)*.35;this.life=1;this.dec=Math.random()*.005+.0015}
+    else if(this.t==='mist'){this.s=Math.random()*45+20;this.vy=Math.random()*.06+.01;this.vx=(Math.random()-.5)*.1;this.o=Math.random()*.03+.008}
+    else{this.s=Math.random()*1.2+.25;this.vy=Math.random()*.18+.04;this.vx=(Math.random()-.5)*.1;this.o=Math.random()*.15+.05;this.ph=Math.random()*6.28}
+  }
+  update(){
+    if(this.t==='winter'){this.ph+=.012;this.x+=Math.sin(this.ph)*.18+this.vx;this.y+=this.vy;if(this.y>h+6)this.reset()}
+    else if(this.t==='ember'||this.t==='flame'){this.x+=this.vx;this.y+=this.vy;this.life-=this.dec;if(this.life<=0||this.y<-12)this.reset()}
+    else if(this.t==='mist'){this.x+=this.vx;this.y+=this.vy;if(this.y>h+50)this.reset()}
+    else{this.y+=this.vy;this.x+=this.vx;this.ph+=.018;if(this.y>h+6)this.reset()}
+  }
+  draw(){
+    const {r,g,b}=partColor;
+    if(this.t==='flame'){
+      const gr=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s*1.7);
+      gr.addColorStop(0,`rgba(${r},${g},${b},${this.life*.65})`);gr.addColorStop(1,`rgba(${r},${g},${b},0)`);
+      ctx.beginPath();ctx.arc(this.x,this.y,this.s*1.7,0,6.28);ctx.fillStyle=gr;ctx.fill();
+    }else if(this.t==='ember'){
+      const gr=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s*1.5);
+      gr.addColorStop(0,`rgba(251,191,36,${this.life*.7})`);gr.addColorStop(1,'rgba(249,115,22,0)');
+      ctx.beginPath();ctx.arc(this.x,this.y,this.s*1.5,0,6.28);ctx.fillStyle=gr;ctx.fill();
+    }else if(this.t==='mist'){
+      const gr=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s);
+      gr.addColorStop(0,`rgba(${r},${g},${b},${this.o})`);gr.addColorStop(1,`rgba(${r},${g},${b},0)`);
+      ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,6.28);ctx.fillStyle=gr;ctx.fill();
+    }else{
+      const a=(this.o||0.12)*(this.ph?0.55+0.45*Math.sin(this.ph):1);
+      ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,6.28);ctx.fillStyle=`rgba(${r},${g},${b},${a})`;ctx.fill();
+    }
+  }
+}
+function initParts(){
+  parts=[];
+  if(intensity<=0)return;
+  const n=Math.min(Math.floor(intensity/45*48),Math.floor(w*h/20000));
+  for(let i=0;i<n;i++) parts.push(new Part(theme==='void'?'cosmic':theme));
+}
+function loop(){
+  ctx.clearRect(0,0,w,h);
+  if(particlesOn&&intensity>0) for(let i=0;i<parts.length;i++){parts[i].update();parts[i].draw()}
+  requestAnimationFrame(loop);
+}
+
+function applyGradient(t,m,b){
+  document.documentElement.style.setProperty('--bg-top',t);
+  document.documentElement.style.setProperty('--bg-mid',m);
+  document.documentElement.style.setProperty('--bg-bot',b);
+  document.getElementById('bg-top').value=t;
+  document.getElementById('bg-mid').value=m;
+  document.getElementById('bg-bot').value=b;
+}
+function setTheme(t){
+  theme=t;
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===t));
+  const p=PRESETS[t]||PRESETS.flame;
+  applyGradient(p.top,p.mid,p.bot);
+  initParts();
+}
+
+function load(n){
+  const c=chapters[n];if(!c)return;
+  cur=n;
+  document.getElementById('content').innerHTML=c.html;
+  document.getElementById('ch-num').textContent=c.num;
+  document.getElementById('ch-title').textContent=c.title;
+  document.getElementById('ch-label').textContent=c.num+' · '+c.title;
+  document.getElementById('cur').textContent=n;
+  document.getElementById('prev').disabled=n<=1;
+  document.getElementById('next').disabled=!chapters[n+1];
+  document.querySelectorAll('.ch-item').forEach(b=>b.classList.toggle('active',+b.dataset.ch===n));
+  if(autoTheme) setTheme(c.theme);
+  document.getElementById('main').scrollTop=0;
+  paras=[...document.querySelectorAll('#content p')];
+  applyTextMode();
+  requestAnimationFrame(updateFocus);
+}
+
+function updateFocus(){
+  if(!focusMode||!paras.length){
+    paras.forEach(p=>{p.style.opacity='';p.style.transform='';p.style.setProperty('--p-scale','1')});
+    return;
+  }
+  const mid=window.innerHeight*0.42;
+  const range=window.innerHeight*0.52;
+
+  for(let i=0;i<paras.length;i++){
+    const p=paras[i];
+    const r=p.getBoundingClientRect();
+    const center=r.top+r.height*0.5;
+    const dist=Math.abs(center-mid);
+    let t=Math.min(1,dist/range);
+    t=t*t*(3-2*t);
+
+    const scale=1.07-t*0.09;
+    const opacity=1-t*0.58;
+
+    p.style.setProperty('--p-scale',scale.toFixed(4));
+    if(textMode==='still'){
+      p.style.transform=`scale(${scale.toFixed(4)})`;
+    }
+    p.style.opacity=opacity.toFixed(3);
+  }
+
+  if(wordFx){
+    document.querySelectorAll('.fx-sand,.fx-shake,.fx-glow,.fx-blood,.fx-moon').forEach(el=>{
+      const p=el.closest('p');
+      if(!p)return;
+      const r=p.getBoundingClientRect();
+      const center=r.top+r.height*0.5;
+      const near=Math.abs(center-mid)<window.innerHeight*0.2;
+      el.classList.toggle('on',near);
+    });
+  }
+}
+
+function applyTextMode(){
+  const el=document.getElementById('content');
+  el.classList.toggle('float-mode',textMode==='float');
+}
+
+const panel=document.getElementById('settings-panel');
+const backdrop=document.getElementById('settings-backdrop');
+function openSet(){panel.classList.add('open');backdrop.classList.add('open')}
+function closeSet(){panel.classList.remove('open');backdrop.classList.remove('open')}
+document.getElementById('btn-set').onclick=openSet;
+document.getElementById('close-set').onclick=closeSet;
+backdrop.onclick=closeSet;
+
+let touchStartX=0;
+panel.addEventListener('touchstart',e=>{touchStartX=e.touches[0].clientX},{passive:true});
+panel.addEventListener('touchend',e=>{
+  const dx=e.changedTouches[0].clientX-touchStartX;
+  if(dx>70) closeSet();
+},{passive:true});
+
+document.getElementById('btn-ch').onclick=()=>document.getElementById('chapters-panel').classList.add('open');
+document.getElementById('close-ch').onclick=()=>document.getElementById('chapters-panel').classList.remove('open');
+document.getElementById('btn-fs').onclick=()=>{
+  if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});document.body.classList.add('fullscreen')}
+  else{document.exitFullscreen();document.body.classList.remove('fullscreen','show-ui')}
+};
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement)document.body.classList.remove('fullscreen','show-ui')});
+document.addEventListener('mousemove',()=>{
+  if(!document.body.classList.contains('fullscreen'))return;
+  document.body.classList.add('show-ui');
+  clearTimeout(window._uit);window._uit=setTimeout(()=>document.body.classList.remove('show-ui'),1600);
+});
+
+document.getElementById('fs').oninput=e=>document.documentElement.style.setProperty('--font-size',e.target.value+'px');
+document.getElementById('fs-down').onclick=()=>{const s=document.getElementById('fs');s.value=Math.max(15,+s.value-1);s.dispatchEvent(new Event('input'))};
+document.getElementById('fs-up').onclick=()=>{const s=document.getElementById('fs');s.value=Math.min(28,+s.value+1);s.dispatchEvent(new Event('input'))};
+document.getElementById('weight').oninput=e=>document.documentElement.style.setProperty('--weight',e.target.value);
+document.getElementById('lh').oninput=e=>document.documentElement.style.setProperty('--line-height',e.target.value);
+document.getElementById('width').oninput=e=>{
+  document.documentElement.style.setProperty('--content-width',e.target.value+'rem');
+};
+document.getElementById('stroke').oninput=e=>document.documentElement.style.setProperty('--stroke',e.target.value+'px');
+document.getElementById('stroke-color').oninput=e=>document.documentElement.style.setProperty('--stroke-color',e.target.value);
+document.getElementById('text-color').oninput=e=>{
+  document.documentElement.style.setProperty('--text',e.target.value);
+};
+document.getElementById('text-bright').oninput=e=>{
+  document.documentElement.style.setProperty('--text-bright',e.target.value);
+};
+
+document.querySelectorAll('.align-btn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.align-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.documentElement.style.setProperty('--align',b.dataset.a);
+});
+
+document.querySelectorAll('.mode-btn').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  textMode=b.dataset.m;
+  applyTextMode();
+  updateFocus();
+});
+
+function updateCustomBg(){
+  applyGradient(document.getElementById('bg-top').value,document.getElementById('bg-mid').value,document.getElementById('bg-bot').value);
+  autoTheme=false;document.getElementById('auto-theme').checked=false;
+  document.querySelectorAll('.theme-btn').forEach(x=>x.classList.remove('active'));
+}
+document.getElementById('bg-top').oninput=updateCustomBg;
+document.getElementById('bg-mid').oninput=updateCustomBg;
+document.getElementById('bg-bot').oninput=updateCustomBg;
+
+document.querySelectorAll('.theme-btn').forEach(b=>b.onclick=()=>{
+  autoTheme=false;document.getElementById('auto-theme').checked=false;setTheme(b.dataset.theme);
+});
+document.getElementById('auto-theme').onchange=e=>{autoTheme=e.target.checked;if(autoTheme)setTheme(chapters[cur].theme)};
+document.getElementById('focus-mode').onchange=e=>{focusMode=e.target.checked;updateFocus()};
+document.getElementById('particles').onchange=e=>{particlesOn=e.target.checked};
+document.getElementById('word-fx').onchange=e=>{wordFx=e.target.checked;if(!wordFx)document.querySelectorAll('.fx-sand,.fx-shake,.fx-glow,.fx-blood,.fx-moon').forEach(el=>el.classList.remove('on'))};
+document.getElementById('intensity').oninput=e=>{intensity=+e.target.value;initParts()};
+
+document.getElementById('part-color').oninput=e=>{const hex=e.target.value;partColor={r:parseInt(hex.slice(1,3),16),g:parseInt(hex.slice(3,5),16),b:parseInt(hex.slice(5,7),16)}};
+document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const c=b.dataset.c;document.getElementById('part-color').value=c;partColor={r:parseInt(c.slice(1,3),16),g:parseInt(c.slice(3,5),16),b:parseInt(c.slice(5,7),16)}});
+
+document.getElementById('prev').onclick=()=>{if(cur>1)load(cur-1)};
+document.getElementById('next').onclick=()=>{if(chapters[cur+1])load(cur+1)};
+document.querySelectorAll('.ch-item').forEach(b=>b.onclick=()=>{load(+b.dataset.ch);document.getElementById('chapters-panel').classList.remove('open')});
+
+const main=document.getElementById('main');
+main.addEventListener('scroll',()=>{
+  const p=main.scrollTop/(main.scrollHeight-main.clientHeight||1)*100;
+  document.getElementById('prog').style.width=(p||0)+'%';
+  if(rafFocus) cancelAnimationFrame(rafFocus);
+  rafFocus=requestAnimationFrame(updateFocus);
+},{passive:true});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeSet();document.getElementById('chapters-panel').classList.remove('open');if(document.fullscreenElement)document.exitFullscreen()}
+  if((e.key==='f'||e.key==='а')&&!e.ctrlKey)document.getElementById('btn-fs').click();
+  if(e.key==='ArrowRight'&&chapters[cur+1])load(cur+1);
+  if(e.key==='ArrowLeft'&&cur>1)load(cur-1);
+});
+
+resize();setTheme('flame');load(1);loop();
+addEventListener('resize',()=>{resize();updateFocus()});
+</script>
+</body>
+</html>
