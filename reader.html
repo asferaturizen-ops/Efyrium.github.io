@@ -1,1 +1,124 @@
-PLACEHOLDER_WILL_FAIL
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Сияющий Дух Эфи Верховный</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;0,7..72,600;0,7..72,700;1,7..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Roboto+Slab:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg-top:#030712;--bg-mid:#051525;--bg-bot:#0a1a2e;--text:#e0f2fe;--text-bright:1;--font-size:18px;--line-height:1.9;--font:'Lora',serif;--weight:400;--accent:#38bdf8;--align:left;--content-width:30rem;--band:28%;--edge:0.28;--text-prox:0.35}
+*{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;overscroll-behavior:none}
+body{font-family:Inter,system-ui,sans-serif;color:var(--text);background:linear-gradient(180deg,var(--bg-top) 0%,var(--bg-mid) 50%,var(--bg-bot) 100%);background-attachment:fixed;overflow:hidden;-webkit-tap-highlight-color:transparent}
+.font-cinzel{font-family:Cinzel,serif}
+#fx{position:fixed;inset:0;z-index:0;pointer-events:none}#atm-fx{position:fixed;inset:0;z-index:16;pointer-events:none}
+#top-bar{transition:opacity .3s,transform .3s;z-index:40}body.fullscreen #top-bar{opacity:0;pointer-events:none;transform:translateY(-100%)}body.fullscreen.show-ui #top-bar{opacity:1;pointer-events:auto;transform:translateY(0)}
+#settings-panel,#chapters-panel{transition:transform .28s cubic-bezier(.22,1,.36,1);z-index:50}#settings-panel.open,#chapters-panel.open{transform:translateX(0)!important}
+#settings-backdrop{opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}#settings-backdrop.open{opacity:1;pointer-events:auto}
+#main{position:relative;z-index:10;height:100%;overflow-y:auto;overflow-x:hidden;overscroll-behavior:none;-webkit-overflow-scrolling:touch;padding:3.4rem 0 5rem;background:transparent;scrollbar-width:none;-ms-overflow-style:none}#main::-webkit-scrollbar{display:none;width:0;height:0}
+.reader-wrap{max-width:var(--content-width);margin:0 auto;padding:1.2rem 1.75rem 3rem;width:100%}
+.spotlight{position:fixed;left:0;right:0;top:0;bottom:0;z-index:15;pointer-events:none;background:linear-gradient(to bottom,rgba(3,7,18,var(--edge)) 0%,rgba(3,7,18,var(--edge)) calc(50% - var(--band)/2 - 8%),transparent calc(50% - var(--band)/2),transparent calc(50% + var(--band)/2),rgba(3,7,18,var(--edge)) calc(50% + var(--band)/2 + 8%),rgba(3,7,18,var(--edge)) 100%)}
+.spotlight::after{content:'';position:absolute;left:0;right:0;top:calc(50% - 1px);height:2px;background:linear-gradient(90deg,transparent,rgba(56,189,248,.08),transparent);opacity:.6}
+.reader-text{font-family:var(--font);font-size:var(--font-size);font-weight:var(--weight);line-height:var(--line-height);color:var(--text);text-align:var(--align);filter:brightness(var(--text-bright));position:relative;z-index:12}
+.reader-text p{margin:0 0 1.15em;transform-origin:center center;will-change:transform,opacity}
+.reader-text p.dropcap::first-letter{font-family:Cinzel,serif;font-size:1.45em;color:var(--accent);font-weight:600}
+.c-red{color:#f87171;text-shadow:0 0 8px rgba(239,68,68,.4)}.c-cyan{color:#22d3ee;text-shadow:0 0 8px rgba(6,182,212,.4)}.c-green{color:#4ade80;text-shadow:0 0 8px rgba(34,197,94,.35)}.c-gold{color:#fbbf24;text-shadow:0 0 8px rgba(245,158,11,.4)}.c-purple{color:#c084fc;text-shadow:0 0 8px rgba(168,85,247,.4)}.c-blue{color:#60a5fa;text-shadow:0 0 8px rgba(59,130,246,.35)}.c-white{color:#f8fafc;text-shadow:0 0 10px rgba(255,255,255,.35)}.c-black{color:#94a3b8}
+.c-orange{color:#fb923c;text-shadow:0 0 8px rgba(249,115,22,.4)}.c-pink{color:#f472b6;text-shadow:0 0 8px rgba(236,72,153,.4)}.c-silver{color:#e2e8f0;text-shadow:0 0 8px rgba(226,232,240,.35)}.c-fire{color:#f97316;text-shadow:0 0 10px rgba(249,115,22,.5)}.c-ice{color:#a5f3fc;text-shadow:0 0 10px rgba(34,211,238,.45)}.c-moon{color:#f8fafc;text-shadow:0 0 12px #e0f2fe,0 0 22px #7dd3fc}.c-sand{color:#fbbf24;text-shadow:0 0 8px rgba(251,191,36,.45)}.c-shadow{color:#64748b}.c-light{color:#fef9c3;text-shadow:0 0 10px rgba(254,249,195,.5)}
+.fx-moon{color:#f8fafc;text-shadow:0 0 14px #e0f2fe,0 0 24px #7dd3fc}.fx-glow{color:#7dd3fc;text-shadow:0 0 12px #38bdf8}.fx-blood{color:#f87171;text-shadow:0 0 10px #ef4444}.fx-sand{color:#fbbf24;text-shadow:0 0 8px rgba(251,191,36,.45)}.fx-shake{display:inline-block}
+.mode-soft{--edge:0.55}.mode-cinema{--band:18%;--edge:0.42}.mode-cinema .reader-text{letter-spacing:.015em}.mode-sharp{--edge:0.15;--band:40%}.mode-sharp .reader-text{filter:brightness(var(--text-bright)) contrast(1.06)}.mode-wide{--band:48%;--edge:0.22}.mode-narrow{--band:14%;--edge:0.48}
+.mode-float .reader-text p{animation:blockFloat 5s ease-in-out infinite}@keyframes blockFloat{0%,100%{translate:0 0}50%{translate:0 -3px}}
+.mode-breathe .reader-text{animation:blockBreathe 4s ease-in-out infinite}@keyframes blockBreathe{0%,100%{opacity:1}50%{opacity:.88}}
+.mode-pulse .spotlight{animation:bandPulse 3s ease-in-out infinite}@keyframes bandPulse{0%,100%{opacity:1}50%{opacity:.85}}
+.ch-nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 0 0;margin-top:1.8rem;border-top:1px solid rgba(255,255,255,.06);position:relative;z-index:12}
+.font-option.active,.theme-btn.active,.align-btn.active,.mode-btn.active{background:rgba(14,165,233,.22)!important;border-color:rgba(56,189,248,.5)!important}
+.ch-item.active{border-color:rgba(56,189,248,.55)!important;background:rgba(14,165,233,.28)!important}.ch-item.active span{color:#38bdf8!important}.ch-item.active p{color:#fff!important}.ch-item:not(.active) span{color:#64748b}.ch-item:not(.active) p{color:#94a3b8}
+input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;border:none;border-radius:4px;background:transparent;cursor:pointer;padding:0}
+.color-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}.color-row label{flex:1;font-size:11px;color:#94a3b8}
+.section{border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:8px;margin-bottom:2px}.section-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:6px 0;user-select:none}.section-head h3{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin:0}.section-body{display:none;padding-top:4px}.section.open .section-body{display:block}.section.open .chev{transform:rotate(180deg)}.chev{transition:transform .2s;color:#64748b;font-size:10px}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}.mode-btn{padding:7px 3px;border-radius:7px;border:1px solid rgba(255,255,255,.1);font-size:10px;text-align:center}
+.fx-row{display:flex;align-items:center;gap:8px;padding:4px 0}.fx-row label{flex:1;font-size:12px}
+</style>
+</head>
+<body>
+<canvas id="fx"></canvas><canvas id="atm-fx"></canvas>
+<div class="spotlight" id="spotlight"></div>
+<div id="settings-backdrop" class="fixed inset-0 bg-black/40"></div>
+<header id="top-bar" class="fixed top-0 inset-x-0 bg-black/55 backdrop-blur-xl border-b border-white/5">
+<div class="max-w-3xl mx-auto px-3 py-2 flex items-center justify-between">
+<div class="flex items-center gap-2 min-w-0"><a href="index.html" class="text-slate-400 hover:text-sky-300 text-sm shrink-0">←</a>
+<div class="min-w-0"><div class="font-cinzel text-sm textsm text-white truncate">Сияющий Дух Эфи Верховный</div>
+<div class="text-[10px] text-sky-400/80 truncate" id="ch-label">Глава I · Пробуждение Эфира</div></div></div>
+<div class="flex items-center gap-0 shrink-0">
+<button id="btn-ch" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white">☰</button>
+<button id="btn-set" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white">⚙</button>
+<button id="btn-fs" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white">⛶</button>
+</div></div></header>
+<aside id="chapters-panel" class="fixed top-0 left-0 h-full w-64 bg-[#071018]/97 backdrop-blur-2xl border-r border-sky-500/15 -translate-x-full overflow-y-auto">
+<div class="p-4"><div class="flex items-center justify-between mb-4"><h2 class="font-cinzel text-base text-white">Главы</h2><button id="close-ch" class="text-slate-400 hover:text-white">✕</button></div>
+<div class="space-y-1" id="ch-list">
+<button class="ch-item active w-full text-left px-3 py-2.5 rounded-xl border border-sky-500/30 bg-sky-900/30" data-ch="1"><span class="text-[10px] text-sky-400">Глава I</span><p class="text-sm text-white mt-0.5">Пробуждение Эфира</p></button>
+<button class="ch-item w-full text-left px-3 py-2.5 rounded-xl border border-transparent hover:bg-white/5" data-ch="2"><span class="text-[10px] text-slate-500">Глава II</span><p class="text-sm text-slate-300 mt-0.5">Первый Рассвет</p></button>
+</div></div></aside>
+<aside id="settings-panel" class="fixed top-0 right-0 h-full w-[19.5rem] max-w-[90vw] bg-[#071018]/97 backdrop-blur-2xl border-l border-sky-500/15 translate-x-full overflow-y-auto overscroll-contain">
+<div class="p-3.5 pb-14">
+<div class="flex items-center justify-between mb-1"><h2 class="font-cinzel text-base text-white">Настройки</h2><button id="close-set" class="text-slate-400 hover:text-white p-1">✕</button></div>
+<p class="text-[10px] text-slate-500 mb-2">Свайп / тап снаружи</p>
+<div class="section open"><div class="section-head"><h3>Текст</h3><span class="chev">▼</span></div>
+<div class="section-body space-y-2">
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Размер</label><div class="flex items-center gap-1.5"><button id="fs-down" class="w-6 h-6 rounded bg-white/5 text-[10px]">A−</button><input type="range" id="fs" min="15" max="24" value="18" class="flex-1"><button id="fs-up" class="w-6 h-6 rounded bg-white/5 text-[10px]">A+</button></div></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Жирность</label><input type="range" id="weight" min="300" max="700" step="100" value="400" class="w-full"></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Межстрочный</label><input type="range" id="lh" min="1.4" max="2.3" step="0.05" value="1.9" class="w-full"></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Ширина колонки</label><input type="range" id="width" min="16" max="36" value="30" class="w-full"></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Выравнивание</label><div class="flex gap-1"><button class="align-btn active flex-1 py-1 rounded-lg border border-sky-500/40 text-[10px]" data-a="left">Слева</button><button class="align-btn flex-1 py-1 rounded-lg border border-white/10 text-[10px]" data-a="center">Центр</button><button class="align-btn flex-1 py-1 rounded-lg border border-white/10 text-[10px]" data-a="justify">Ширина</button></div></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Цвет / яркость</label><div class="flex items-center gap-2"><input type="color" id="text-color" value="#e0f2fe"><input type="range" id="text-bright" min="0.55" max="1.3" step="0.05" value="1" class="flex-1"></div></div>
+<label class="flex items-center justify-between text-xs cursor-pointer"><span>Приближение от центра</span><input type="checkbox" id="prox-on" checked class="w-3.5 h-3.5 accent-sky-400"></label>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Сила приближения</label><input type="range" id="text-prox" min="0" max="100" value="35" class="w-full"></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Шрифт</label><div class="space-y-0.5 max-h-20 overflow-y-auto" id="font-list"></div></div>
+</div></div>
+<div class="section"><div class="section-head"><h3>Режимы чтения</h3><span class="chev">▼</span></div>
+<div class="section-body space-y-2">
+<div class="mode-grid">
+<button class="mode-btn active" data-m="still">Покой</button><button class="mode-btn" data-m="soft">Мягкий</button><button class="mode-btn" data-m="cinema">Кино</button><button class="mode-btn" data-m="sharp">Чёткий</button><button class="mode-btn" data-m="wide">Широкий</button><button class="mode-btn" data-m="narrow">Узкий</button><button class="mode-btn" data-m="float">Парение</button><button class="mode-btn" data-m="breathe">Дыхание</button><button class="mode-btn" data-m="pulse">Пульс</button>
+</div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Высота светлой зоны</label><input type="range" id="band" min="10" max="55" value="28" class="w-full"></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Затемнение краёв</label><input type="range" id="edge" min="0" max="70" value="28" class="w-full"></div>
+<label class="flex items-center justify-between text-xs cursor-pointer"><span>Центральная подсветка</span><input type="checkbox" id="spot-on" checked class="w-3.5 h-3.5 accent-sky-400"></label>
+</div></div>
+<div class="section"><div class="section-head"><h3>Атмосфера фона</h3><span class="chev">▼</span></div>
+<div class="section-body space-y-2">
+<div class="color-row"><label>Верх</label><input type="color" id="bg-top" value="#030712"></div>
+<div class="color-row"><label>Середина</label><input type="color" id="bg-mid" value="#051525"></div>
+<div class="color-row"><label>Низ</label><input type="color" id="bg-bot" value="#0a1a2e"></div>
+<div class="grid grid-cols-3 gap-1">
+<button class="theme-btn active px-1 py-1 rounded-lg border border-sky-500/40 text-[9px]" data-theme="flame">Пламя</button>
+<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="cosmic">Космос</button>
+<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="winter">Лёд</button>
+<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="ember">Рассвет</button>
+<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="mist">Туман</button>
+<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="void">Пустота</button>
+</div>
+<label class="flex items-center justify-between text-xs cursor-pointer"><span>Авто по главам</span><input type="checkbox" id="auto-theme" checked class="w-3.5 h-3.5 accent-sky-400"></label>
+</div></div>
+<div class="section"><div class="section-head"><h3>Эффекты над текстом (26)</h3><span class="chev">▼</span></div>
+<div class="section-body space-y-1 max-h-56 overflow-y-auto" id="fx-list"></div></div>
+<div class="section"><div class="section-head"><h3>Частицы фона</h3><span class="chev">▼</span></div>
+<div class="section-body space-y-2">
+<label class="flex items-center justify-between text-xs cursor-pointer"><span>Включены</span><input type="checkbox" id="particles" checked class="w-3.5 h-3.5 accent-sky-400"></label>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Интенсивность</label><input type="range" id="intensity" min="0" max="35" value="12" class="w-full"></div>
+<div class="flex items-center gap-2"><input type="color" id="part-color" value="#38bdf8">
+<div class="flex gap-1"><button class="w-4 h-4 rounded-full bg-sky-400 border border-white/20" data-c="#38bdf8"></button><button class="w-4 h-4 rounded-full bg-cyan-300 border border-white/20" data-c="#67e8f9"></button><button class="w-4 h-4 rounded-full bg-amber-400 border border-white/20" data-c="#fbbf24"></button></div></div>
+</div></div>
+</div></aside>
+<main id="main"><div class="reader-wrap" id="reader-root">
+<div class="text-center mb-7"><p class="text-sky-400/70 text-xs tracking-[0.16em] uppercase mb-1.5" id="ch-num">Глава I</p>
+<h2 class="font-cinzel text-2xl sm:text-3xl text-white mb-2" id="ch-title">Пробуждение Эфира</h2>
+<div class="w-10 h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent mx-auto"></div></div>
+<div id="content" class="reader-text"></div>
+<div class="ch-nav"><button id="prev" class="px-3 py-1.5 rounded-full border border-white/10 text-xs text-slate-500 disabled:opacity-25" disabled>← Назад</button>
+<span class="text-[10px] text-slate-500"><span id="cur">1</span> / 2</span>
+<button id="next" class="px-3 py-1.5 rounded-full bg-sky-600/25 border border-sky-400/35 text-sky-200 text-xs">Далее →</button></div>
+</div></main>
+<script src="reader-effects.js"></script>
+<script src="reader-app.js"></script>
+</body>
+</html>
