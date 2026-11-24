@@ -14,7 +14,7 @@
   --accent:#38bdf8; --align:left; --content-width:30rem;
   --band:28%;
   --edge:0.28;
-  --text-prox:1;
+  --text-prox:0.45;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overscroll-behavior:none}
@@ -49,7 +49,7 @@ body.fullscreen.show-ui #top-bar{opacity:1;pointer-events:auto;transform:transla
 .reader-wrap{
   max-width:var(--content-width);
   margin:0 auto;
-  padding:1.2rem 1.5rem 3rem;
+  padding:1.2rem 1.75rem 3rem;
   width:100%;
 }
 .spotlight{
@@ -85,11 +85,12 @@ body.fullscreen.show-ui #top-bar{opacity:1;pointer-events:auto;transform:transla
   filter:brightness(var(--text-bright));
   position:relative;
   z-index:12;
-  transform:scale(var(--text-prox));
-  transform-origin:center center;
-  transition:transform .25s ease;
 }
-.reader-text p{margin:0 0 1.15em}
+.reader-text p{
+  margin:0 0 1.15em;
+  transform-origin:center center;
+  will-change:transform,opacity;
+}
 .reader-text p.dropcap::first-letter{
   font-family:Cinzel,serif;
   font-size:1.45em;
@@ -116,8 +117,8 @@ body.fullscreen.show-ui #top-bar{opacity:1;pointer-events:auto;transform:transla
 .mode-sharp .reader-text{filter:brightness(var(--text-bright)) contrast(1.06)}
 .mode-wide{--band:48%;--edge:0.22}
 .mode-narrow{--band:14%;--edge:0.48}
-.mode-float .reader-text{animation:blockFloat 5s ease-in-out infinite}
-@keyframes blockFloat{0%,100%{transform:scale(var(--text-prox)) translateY(0)}50%{transform:scale(var(--text-prox)) translateY(-3px)}}
+.mode-float .reader-text p{animation:blockFloat 5s ease-in-out infinite}
+@keyframes blockFloat{0%,100%{translate:0 0}50%{translate:0 -3px}}
 .mode-breathe .reader-text{animation:blockBreathe 4s ease-in-out infinite}
 @keyframes blockBreathe{0%,100%{opacity:1}50%{opacity:.88}}
 .mode-pulse .spotlight{animation:bandPulse 3s ease-in-out infinite}
@@ -227,8 +228,8 @@ input[type=color]{width:28px;height:22px;border:none;border-radius:4px;backgroun
 <input type="color" id="text-color" value="#e0f2fe">
 <input type="range" id="text-bright" min="0.55" max="1.3" step="0.05" value="1" class="flex-1">
 </div></div>
-<div><label class="text-[10px] text-slate-500 mb-0.5 block">Приближение текста</label>
-<input type="range" id="text-prox" min="100" max="115" value="100" class="w-full"></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Приближение от центра</label>
+<input type="range" id="text-prox" min="0" max="100" value="45" class="w-full"></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Шрифт</label>
 <div class="space-y-0.5 max-h-20 overflow-y-auto" id="font-list"></div></div>
 </div></div>
@@ -446,6 +447,8 @@ function load(n){
   });
   if(autoTheme)setTheme(c.theme);
   document.getElementById('main').scrollTop=0;
+  collectParas();
+  requestDepth();
 }
 function applyMode(m){textMode=m;const root=document.getElementById('reader-root');root.className='reader-wrap mode-'+m;const defaults={still:{band:28,edge:28},soft:{band:30,edge:55},cinema:{band:18,edge:42},sharp:{band:40,edge:15},wide:{band:48,edge:22},narrow:{band:14,edge:48},float:{band:28,edge:28},breathe:{band:28,edge:28},pulse:{band:26,edge:32}};const d=defaults[m]||defaults.still;document.getElementById('band').value=d.band;document.getElementById('edge').value=d.edge;document.documentElement.style.setProperty('--band',d.band+'%');document.documentElement.style.setProperty('--edge',(d.edge/100).toFixed(2))}
 const panel=document.getElementById('settings-panel'),backdrop=document.getElementById('settings-backdrop');
@@ -465,7 +468,61 @@ document.getElementById('lh').oninput=e=>document.documentElement.style.setPrope
 document.getElementById('width').oninput=e=>document.documentElement.style.setProperty('--content-width',e.target.value+'rem');
 document.getElementById('text-color').oninput=e=>document.documentElement.style.setProperty('--text',e.target.value);
 document.getElementById('text-bright').oninput=e=>document.documentElement.style.setProperty('--text-bright',e.target.value);
-document.getElementById('text-prox').oninput=e=>{document.documentElement.style.setProperty('--text-prox',(+e.target.value/100).toFixed(3))};
+
+/* ===== Center depth (scale + soft opacity like spotlight) ===== */
+let proxStrength = 0.45;
+let depthParas = [];
+let depthRaf = 0;
+
+function collectParas(){
+  depthParas = Array.from(document.querySelectorAll('#content p'));
+}
+
+function updateDepth(){
+  depthRaf = 0;
+  const n = depthParas.length;
+  if(!n) return;
+  const cy = window.innerHeight * 0.5;
+  const maxDist = window.innerHeight * 0.42;
+  const strength = proxStrength;
+  const sMin = 1 - 0.07 * strength;
+  const sMax = 1 + 0.11 * strength;
+  const oMin = 1 - 0.35 * strength;
+  const oMax = 1;
+
+  for(let i=0;i<n;i++){
+    const p = depthParas[i];
+    const r = p.getBoundingClientRect();
+    if(r.bottom < -80 || r.top > window.innerHeight + 80){
+      p.style.transform = 'scale(' + sMin.toFixed(4) + ')';
+      p.style.opacity = oMin.toFixed(3);
+      continue;
+    }
+    const mid = r.top + r.height * 0.5;
+    let t = 1 - Math.abs(mid - cy) / maxDist;
+    if(t < 0) t = 0;
+    t = t * t * (3 - 2 * t);
+    const sc = sMin + (sMax - sMin) * t;
+    const op = oMin + (oMax - oMin) * t;
+    p.style.transform = 'scale(' + sc.toFixed(4) + ')';
+    p.style.opacity = op.toFixed(3);
+  }
+}
+
+function requestDepth(){
+  if(!depthRaf) depthRaf = requestAnimationFrame(updateDepth);
+}
+
+document.getElementById('text-prox').oninput = e => {
+  proxStrength = (+e.target.value) / 100;
+  document.documentElement.style.setProperty('--text-prox', proxStrength.toFixed(3));
+  requestDepth();
+};
+
+const mainEl = document.getElementById('main');
+mainEl.addEventListener('scroll', requestDepth, {passive:true});
+addEventListener('resize', () => { requestDepth(); });
+
 document.getElementById('band').oninput=e=>{document.documentElement.style.setProperty('--band',e.target.value+'%')};
 document.getElementById('edge').oninput=e=>{document.documentElement.style.setProperty('--edge',(+e.target.value/100).toFixed(2))};
 document.getElementById('spot-on').onchange=e=>{document.getElementById('spotlight').style.display=e.target.checked?'':'none'};
@@ -483,7 +540,7 @@ document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{const c=b.datase
 document.getElementById('prev').onclick=()=>{if(cur>1)load(cur-1)};document.getElementById('next').onclick=()=>{if(chapters[cur+1])load(cur+1)};
 document.querySelectorAll('.ch-item').forEach(b=>b.onclick=()=>{load(+b.dataset.ch);document.getElementById('chapters-panel').classList.remove('open')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSet();document.getElementById('chapters-panel').classList.remove('open');if(document.fullscreenElement)document.exitFullscreen()}if((e.key==='f'||e.key==='а')&&!e.ctrlKey)document.getElementById('btn-fs').click();if(e.key==='ArrowRight'&&chapters[cur+1])load(cur+1);if(e.key==='ArrowLeft'&&cur>1)load(cur-1)});
-resize();setTheme('flame');applyMode('still');load(1);loop();
+resize();setTheme('flame');applyMode('still');load(1);loop();requestDepth();
 addEventListener('resize',resize);
 </script>
 </body>
