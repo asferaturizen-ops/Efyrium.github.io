@@ -1,0 +1,93 @@
+/* Reader specific styles */
+
+:root {
+  --reader-bg: #07060b;
+  --reader-text: #e8e4f0;
+  --reader-font-size: 19px;
+  --reader-line-height: 1.75;
+  --reader-font: 'Cormorant Garamond', serif;
+}
+
+body {
+  background-color: var(--reader-bg);
+  transition: background-color 0.7s ease;
+}
+
+.reader-text {
+  font-family: var(--reader-font);
+  font-size: var(--reader-font-size);
+  line-height: var(--reader-line-height);
+  color: var(--reader-text);
+  transition: font-size 0.2s ease, line-height 0.2s ease, color 0.4s ease;
+}
+
+.reader-text p {
+  margin-bottom: 1.55em;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.reader-text > p:first-of-type::first-letter {
+  font-family: 'Cinzel', serif;
+  font-size: 3.1em;
+  float: left;
+  line-height: 0.82;
+  padding-right: 0.12em;
+  padding-top: 0.06em;
+  color: #c4b5fd;
+  font-weight: 600;
+}
+
+/* Special author-styled paragraphs */
+.reader-text .special-violet {
+  position: relative;
+  padding-left: 1rem;
+  border-left: 2px solid rgba(167, 139, 250, 0.45);
+  color: #ddd6fe !important;
+}
+
+.reader-text .special-amber {
+  color: #fde68a !important;
+  font-style: italic;
+}
+
+/* Panels */
+#settings-panel.open,
+#chapters-panel.open {
+  transform: translateX(0);
+}
+
+.font-option.active,
+.theme-btn.active,
+.chapter-item.active {
+  background: rgba(124, 58, 237, 0.2) !important;
+  border-color: rgba(167, 139, 250, 0.45) !important;
+}
+
+/* Fullscreen */
+body.fullscreen #top-bar,
+body.fullscreen #progress-bar {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body.fullscreen #top-bar {
+  transform: translateY(-100%);
+}
+
+body.fullscreen #reader-main {
+  padding-top: 1.5rem;
+}
+
+body.fullscreen.show-ui #top-bar,
+body.fullscreen.show-ui #progress-bar {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  transform: translateY(0);
+}
+
+/* Themes */
+body.theme-cosmic { --reader-bg: #07060b; --reader-text: #e8e4f0; }
+body.theme-winter { --reader-bg: #0a0f14; --reader-text: #d4e4f0; }
+body.theme-ember  { --reader-bg: #0f0a0a; --reader-text: #f0e4d8; }
+body.theme-mist   { --reader-bg: #0a0f0c; --reader-text: #d8e8e0; }
