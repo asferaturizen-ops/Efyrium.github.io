@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radiant Spirit Efy Supreme — Efy</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#0a0a0f] text-gray-200">
+  <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-violet-600 to-indigo-900 flex items-center justify-center">
+          <span class="font-cinzel font-bold text-white">E</span>
+        </div>
+        <span class="font-cinzel text-lg text-white">Efy</span>
+      </a>
+      <a href="index.html" class="text-sm text-gray-400 hover:text-white transition">← На главную</a>
+    </div>
+  </nav>
+
+  <main class="relative z-10 pt-24 pb-20">
+    <div class="max-w-5xl mx-auto px-5">
+      <div class="grid md:grid-cols-[280px_1fr] gap-10 items-start">
+        
+        <!-- Cover -->
+        <div class="relative">
+          <div class="absolute -inset-3 bg-gradient-to-br from-violet-600/25 to-indigo-800/20 rounded-2xl blur-xl"></div>
+          <div class="relative aspect-[3/4] rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#1a1030] via-[#0f0a1f] to-[#05030a]"></div>
+            <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+              <div class="w-16 h-16 mb-5 rounded-full bg-gradient-to-br from-violet-400/25 to-indigo-600/35 flex items-center justify-center border border-violet-400/20">
+                <span class="font-cinzel text-2xl text-violet-200">✦</span>
+              </div>
+              <h1 class="font-cinzel text-xl text-white leading-tight mb-2">Radiant Spirit<br>Efy Supreme</h1>
+              <p class="text-violet-300/70 text-xs tracking-widest uppercase">RSES</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-3 py-1 rounded-full bg-violet-900/40 border border-violet-500/30 text-violet-300 text-xs">Фэнтези</span>
+            <span class="px-3 py-1 rounded-full bg-indigo-900/40 border border-indigo-500/30 text-indigo-300 text-xs">Космос</span>
+            <span class="px-3 py-1 rounded-full bg-purple-900/40 border border-purple-500/30 text-purple-300 text-xs">Атмосфера</span>
+          </div>
+
+          <h1 class="font-cinzel text-3xl md:text-4xl text-white mb-3">Radiant Spirit Efy Supreme</h1>
+          <p class="text-gray-400 mb-6 leading-relaxed">
+            Мир десяти лун и сотен тысяч солнц. Эфир заполняет всё пространство, а каждое светило смотрит на тебя — с интересом, с презрением или с жаждой убийства. Книга, в которой атмосфера не описана — она живая.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-5 mb-8 text-sm text-gray-500">
+            <span>★ 4.9</span>
+            <span>12 глав</span>
+            <span>Статус: продолжается</span>
+          </div>
+
+          <div class="flex flex-wrap gap-3 mb-10">
+            <a href="reader.html" class="px-7 py-3.5 rounded-full bg-gradient-to-r from-violet-600 to-purple-700 hover:from-violet-500 hover:to-purple-600 text-white font-medium shadow-lg shadow-violet-900/30 transition">
+              Читать с начала
+            </a>
+            <button class="px-6 py-3.5 rounded-full border border-white/15 hover:bg-white/5 transition">
+              ♡ В избранное
+            </button>
+          </div>
+
+          <!-- Chapters list -->
+          <div>
+            <h3 class="font-cinzel text-lg text-white mb-4">Оглавление</h3>
+            <div class="space-y-2">
+              <a href="reader.html" class="flex items-center justify-between px-4 py-3 rounded-xl bg-violet-600/15 border border-violet-500/25 hover:bg-violet-600/25 transition">
+                <div>
+                  <span class="text-xs text-violet-400">Глава I</span>
+                  <p class="text-sm text-white">Пробуждение Эфира</p>
+                </div>
+                <span class="text-violet-400 text-sm">Читать →</span>
+              </a>
+              <a href="reader.html" class="flex items-center justify-between px-4 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 transition">
+                <div>
+                  <span class="text-xs text-gray-500">Глава II</span>
+                  <p class="text-sm text-gray-200">Первый Рассвет</p>
+                </div>
+                <span class="text-gray-500 text-sm">Читать →</span>
+              </a>
+              <div class="flex items-center justify-between px-4 py-3 rounded-xl bg-white/[0.02] border border-white/5 opacity-50">
+                <div>
+                  <span class="text-xs text-gray-600">Глава III</span>
+                  <p class="text-sm text-gray-500">Скоро...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/bg-particles.js"></script>
+</body>
+</html>
