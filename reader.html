@@ -139,6 +139,22 @@ input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;
 </div></main>
 <script src="reader-effects.js"></script>
 <script src="reader-themes.js"></script>
-<script src="reader-app.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/asferaturizen-ops/Efyrium.github.io@35d555b7f44b32f1fe03ccdd4cbcd950b5cd3b79/reader-app.js"></script>
+<script>
+// Bind Atmosphere Strength after app loads
+window.atmStrength = 1;
+setTimeout(function(){
+  var el = document.getElementById('atm-strength');
+  var val = document.getElementById('atm-strength-val');
+  if(el){
+    el.oninput = function(e){
+      var mult = +e.target.value / 100;
+      window.atmStrength = mult;
+      if(val) val.textContent = Math.round(mult*100) + '%';
+      if(typeof applyAtmStrength === 'function') applyAtmStrength(mult);
+    };
+  }
+}, 300);
+</script>
 </body>
 </html>
