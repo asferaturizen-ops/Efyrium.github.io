@@ -14,7 +14,7 @@
   --accent:#38bdf8; --align:left; --content-width:30rem;
   --band:28%;
   --edge:0.28;
-  --text-prox:0.45;
+  --text-prox:0.35;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;overscroll-behavior:none}
@@ -228,8 +228,14 @@ input[type=color]{width:28px;height:22px;border:none;border-radius:4px;backgroun
 <input type="color" id="text-color" value="#e0f2fe">
 <input type="range" id="text-bright" min="0.55" max="1.3" step="0.05" value="1" class="flex-1">
 </div></div>
-<div><label class="text-[10px] text-slate-500 mb-0.5 block">Приближение от центра</label>
-<input type="range" id="text-prox" min="0" max="100" value="45" class="w-full"></div>
+<label class="flex items-center justify-between text-xs cursor-pointer">
+<span>Приближение от центра</span>
+<input type="checkbox" id="prox-on" checked class="w-3.5 h-3.5 accent-sky-400">
+</label>
+<div>
+<label class="text-[10px] text-slate-500 mb-0.5 block">Сила приближения</label>
+<input type="range" id="text-prox" min="0" max="100" value="35" class="w-full">
+</div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Шрифт</label>
 <div class="space-y-0.5 max-h-20 overflow-y-auto" id="font-list"></div></div>
 </div></div>
@@ -418,8 +424,7 @@ class AtmPart{
 }
 function initAtm(){
   atmParts=[];
-  const types=['snow','embers','smoke','fog','orbs','ash'];
-  types.forEach(type=>{
+  ['snow','embers','smoke','fog','orbs','ash'].forEach(type=>{
     if(!atm[type])return;
     const base=type==='smoke'||type==='fog'?18:type==='orbs'?12:28;
     const n=Math.floor((atmInt[type]/100)*base);
@@ -469,8 +474,9 @@ document.getElementById('width').oninput=e=>document.documentElement.style.setPr
 document.getElementById('text-color').oninput=e=>document.documentElement.style.setProperty('--text',e.target.value);
 document.getElementById('text-bright').oninput=e=>document.documentElement.style.setProperty('--text-bright',e.target.value);
 
-/* ===== Center depth (scale + soft opacity like spotlight) ===== */
-let proxStrength = 0.45;
+/* ===== Center depth: scale toward viewer, soft falloff top/bottom ===== */
+let proxOn = true;
+let proxStrength = 0.35;
 let depthParas = [];
 let depthRaf = 0;
 
@@ -478,22 +484,38 @@ function collectParas(){
   depthParas = Array.from(document.querySelectorAll('#content p'));
 }
 
+function clearDepth(){
+  for(let i=0;i<depthParas.length;i++){
+    const p = depthParas[i];
+    p.style.transform = '';
+    p.style.opacity = '';
+    p.style.marginTop = '';
+    p.style.marginBottom = '';
+  }
+}
+
 function updateDepth(){
   depthRaf = 0;
   const n = depthParas.length;
   if(!n) return;
+  if(!proxOn || proxStrength < 0.01){
+    clearDepth();
+    return;
+  }
   const cy = window.innerHeight * 0.5;
-  const maxDist = window.innerHeight * 0.42;
-  const strength = proxStrength;
-  const sMin = 1 - 0.07 * strength;
-  const sMax = 1 + 0.11 * strength;
-  const oMin = 1 - 0.35 * strength;
+  const maxDist = window.innerHeight * 0.40;
+  const s = proxStrength;
+  // Gentle: center +8% max, edges -3% — no fly-up, no covering neighbors
+  const sMax = 1 + 0.08 * s;
+  const sMin = 1 - 0.03 * s;
   const oMax = 1;
+  const oMin = 1 - 0.28 * s;
+  const gapBoost = 0.12 * s;
 
   for(let i=0;i<n;i++){
     const p = depthParas[i];
     const r = p.getBoundingClientRect();
-    if(r.bottom < -80 || r.top > window.innerHeight + 80){
+    if(r.bottom < -100 || r.top > window.innerHeight + 100){
       p.style.transform = 'scale(' + sMin.toFixed(4) + ')';
       p.style.opacity = oMin.toFixed(3);
       continue;
@@ -501,11 +523,14 @@ function updateDepth(){
     const mid = r.top + r.height * 0.5;
     let t = 1 - Math.abs(mid - cy) / maxDist;
     if(t < 0) t = 0;
-    t = t * t * (3 - 2 * t);
+    t = t * t * (3 - 2 * t); // smoothstep
     const sc = sMin + (sMax - sMin) * t;
     const op = oMin + (oMax - oMin) * t;
     p.style.transform = 'scale(' + sc.toFixed(4) + ')';
     p.style.opacity = op.toFixed(3);
+    const gap = (0.55 + gapBoost * t).toFixed(3) + 'em';
+    p.style.marginTop = gap;
+    p.style.marginBottom = gap;
   }
 }
 
@@ -513,9 +538,12 @@ function requestDepth(){
   if(!depthRaf) depthRaf = requestAnimationFrame(updateDepth);
 }
 
+document.getElementById('prox-on').onchange = e => {
+  proxOn = e.target.checked;
+  requestDepth();
+};
 document.getElementById('text-prox').oninput = e => {
   proxStrength = (+e.target.value) / 100;
-  document.documentElement.style.setProperty('--text-prox', proxStrength.toFixed(3));
   requestDepth();
 };
 
