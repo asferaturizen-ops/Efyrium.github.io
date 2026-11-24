@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Radiant Spirit Efy Supreme — Чтение | Efyrium</title>
+  <title>Сияющий Дух Эфи Верховный — Чтение</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=Roboto+Slab:wght@300;400;500&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Noto+Serif:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #050810;
-      --text: #e2e8f0;
+      --bg: #030712;
+      --text: #e0f2fe;
       --font-size: 19px;
-      --line-height: 1.75;
-      --font: 'Cormorant Garamond', serif;
+      --line-height: 1.8;
+      --font: 'Playfair Display', serif;
     }
-    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); transition: background 0.5s; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; transition: background 0.6s; }
     .font-cinzel { font-family: 'Cinzel', serif; }
     .reader-text {
       font-family: var(--font);
@@ -22,50 +23,67 @@
       line-height: var(--line-height);
       color: var(--text);
     }
-    .reader-text p { margin-bottom: 1.5em; text-align: justify; }
+    .reader-text p {
+      margin: 0 0 1.6em;
+      text-align: justify;
+      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.45s ease, filter 0.45s ease;
+      transform-origin: center center;
+      opacity: 0.55;
+      filter: blur(0.3px);
+    }
+    .reader-text p.active {
+      opacity: 1;
+      transform: scale(1.06);
+      filter: none;
+      color: #f0f9ff;
+    }
+    .reader-text p.near {
+      opacity: 0.8;
+      transform: scale(1.02);
+      filter: none;
+    }
     .reader-text p:first-of-type::first-letter {
       font-family: 'Cinzel', serif;
-      font-size: 3em;
+      font-size: 3.1em;
       float: left;
-      line-height: 0.85;
+      line-height: 0.82;
       padding-right: 0.1em;
       color: #7dd3fc;
       font-weight: 600;
     }
     #settings-panel, #chapters-panel { transition: transform 0.3s ease; }
-    #settings-panel.open { transform: translateX(0); }
-    #chapters-panel.open { transform: translateX(0); }
+    #settings-panel.open { transform: translateX(0) !important; }
+    #chapters-panel.open { transform: translateX(0) !important; }
     body.fullscreen #top-bar { opacity: 0; pointer-events: none; transform: translateY(-100%); }
     body.fullscreen.show-ui #top-bar { opacity: 1; pointer-events: auto; transform: translateY(0); }
-    .theme-btn.active, .font-option.active { background: rgba(14, 165, 233, 0.2) !important; border-color: rgba(56, 189, 248, 0.5) !important; }
+    .font-option.active, .theme-btn.active { background: rgba(14,165,233,0.25) !important; border-color: rgba(56,189,248,0.55) !important; }
   </style>
 </head>
 <body class="overflow-hidden">
   <canvas id="fx" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
-  <header id="top-bar" class="fixed top-0 inset-x-0 z-40 bg-[#050810]/90 backdrop-blur-xl border-b border-white/5 transition-all duration-300">
+  <header id="top-bar" class="fixed top-0 inset-x-0 z-40 bg-[#030712]/90 backdrop-blur-xl border-b border-sky-500/10 transition-all duration-300">
     <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3 min-w-0">
-        <a href="book.html" class="text-gray-400 hover:text-sky-300 text-sm shrink-0">← Назад</a>
-        <div class="h-4 w-px bg-white/10 hidden sm:block"></div>
+        <a href="index.html" class="text-slate-400 hover:text-sky-300 text-sm shrink-0">←</a>
         <div class="min-w-0">
-          <div class="font-cinzel text-sm text-white truncate">Radiant Spirit Efy Supreme</div>
+          <div class="font-cinzel text-sm text-white truncate">Сияющий Дух Эфи Верховный</div>
           <div class="text-[11px] text-sky-400/80 truncate" id="ch-label">Глава I · Пробуждение Эфира</div>
         </div>
       </div>
       <div class="flex items-center gap-1">
-        <button id="btn-ch" class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white" title="Главы">☰</button>
-        <button id="btn-set" class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white" title="Настройки">⚙</button>
-        <button id="btn-fs" class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white" title="Полный экран (F)">⛶</button>
+        <button id="btn-ch" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white text-lg" title="Главы">☰</button>
+        <button id="btn-set" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white text-lg" title="Настройки">⚙</button>
+        <button id="btn-fs" class="p-2 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white text-lg" title="Полный экран (F)">⛶</button>
       </div>
     </div>
   </header>
 
-  <aside id="chapters-panel" class="fixed top-0 left-0 h-full w-72 bg-[#0a101c]/95 backdrop-blur-2xl border-r border-white/10 z-50 -translate-x-full overflow-y-auto">
+  <aside id="chapters-panel" class="fixed top-0 left-0 h-full w-72 bg-[#071018]/95 backdrop-blur-2xl border-r border-sky-500/15 z-50 -translate-x-full overflow-y-auto">
     <div class="p-5">
       <div class="flex items-center justify-between mb-6">
         <h2 class="font-cinzel text-lg text-white">Главы</h2>
-        <button id="close-ch" class="text-gray-400 hover:text-white">✕</button>
+        <button id="close-ch" class="text-slate-400 hover:text-white">✕</button>
       </div>
       <div class="space-y-1">
         <button class="ch-item active w-full text-left px-4 py-3 rounded-xl border border-sky-500/30 bg-sky-900/30" data-ch="1">
@@ -73,84 +91,115 @@
           <p class="text-sm text-white mt-0.5">Пробуждение Эфира</p>
         </button>
         <button class="ch-item w-full text-left px-4 py-3 rounded-xl border border-transparent hover:bg-white/5" data-ch="2">
-          <span class="text-xs text-gray-500">Глава II</span>
-          <p class="text-sm text-gray-300 mt-0.5">Первый Рассвет</p>
+          <span class="text-xs text-slate-500">Глава II</span>
+          <p class="text-sm text-slate-300 mt-0.5">Первый Рассвет</p>
         </button>
       </div>
     </div>
   </aside>
 
-  <aside id="settings-panel" class="fixed top-0 right-0 h-full w-80 bg-[#0a101c]/95 backdrop-blur-2xl border-l border-white/10 z-50 translate-x-full overflow-y-auto">
-    <div class="p-6">
-      <div class="flex items-center justify-between mb-8">
+  <aside id="settings-panel" class="fixed top-0 right-0 h-full w-80 bg-[#071018]/95 backdrop-blur-2xl border-l border-sky-500/15 z-50 translate-x-full overflow-y-auto">
+    <div class="p-5">
+      <div class="flex items-center justify-between mb-6">
         <h2 class="font-cinzel text-lg text-white">Настройки</h2>
-        <button id="close-set" class="text-gray-400 hover:text-white">✕</button>
+        <button id="close-set" class="text-slate-400 hover:text-white">✕</button>
       </div>
-      <div class="mb-7">
-        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Размер текста</label>
-        <div class="flex items-center gap-3">
-          <button id="fs-down" class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10">A−</button>
-          <input type="range" id="fs" min="16" max="28" value="19" class="flex-1 accent-sky-500">
-          <button id="fs-up" class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10">A+</button>
-        </div>
-        <p class="text-center text-sm text-gray-500 mt-1"><span id="fs-val">19</span>px</p>
-      </div>
-      <div class="mb-7">
-        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Шрифт</label>
-        <div class="space-y-2">
-          <button class="font-option active w-full text-left px-4 py-2.5 rounded-lg border border-sky-500/40 bg-sky-900/20 text-sm" data-font="'Cormorant Garamond', serif">Cormorant Garamond</button>
-          <button class="font-option w-full text-left px-4 py-2.5 rounded-lg border border-white/10 hover:border-sky-500/30 text-sm" data-font="'Literata', serif">Literata</button>
-          <button class="font-option w-full text-left px-4 py-2.5 rounded-lg border border-white/10 hover:border-sky-500/30 text-sm" data-font="'Inter', sans-serif">Inter</button>
+
+      <div class="mb-6">
+        <label class="text-xs uppercase tracking-wider text-slate-500 mb-2 block">Размер</label>
+        <div class="flex items-center gap-2">
+          <button id="fs-down" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 text-sm">A−</button>
+          <input type="range" id="fs" min="16" max="28" value="19" class="flex-1 accent-sky-400">
+          <button id="fs-up" class="w-9 h-9 rounded-lg bg-white/5 hover:bg-white/10 text-sm">A+</button>
         </div>
       </div>
-      <div class="mb-7">
-        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Атмосфера</label>
+
+      <div class="mb-6">
+        <label class="text-xs uppercase tracking-wider text-slate-500 mb-2 block">Шрифт (выбери любой)</label>
+        <div class="space-y-1.5 max-h-48 overflow-y-auto pr-1" id="font-list"></div>
+      </div>
+
+      <div class="mb-6">
+        <label class="text-xs uppercase tracking-wider text-slate-500 mb-2 block">Атмосфера</label>
         <div class="grid grid-cols-2 gap-2">
-          <button class="theme-btn active px-3 py-3 rounded-xl border border-sky-500/40 bg-sky-950/40 text-sm" data-theme="cosmic">✦ Космос</button>
-          <button class="theme-btn px-3 py-3 rounded-xl border border-white/10 hover:border-blue-400/30 text-sm" data-theme="winter">❄ Зима</button>
-          <button class="theme-btn px-3 py-3 rounded-xl border border-white/10 hover:border-orange-400/30 text-sm" data-theme="ember">🔥 Пепел</button>
-          <button class="theme-btn px-3 py-3 rounded-xl border border-white/10 hover:border-cyan-400/30 text-sm" data-theme="mist">🌫 Туман</button>
+          <button class="theme-btn active px-2 py-2.5 rounded-xl border border-sky-500/40 bg-sky-950/40 text-xs" data-theme="flame">🔥 Синее пламя</button>
+          <button class="theme-btn px-2 py-2.5 rounded-xl border border-white/10 text-xs" data-theme="cosmic">✦ Космос</button>
+          <button class="theme-btn px-2 py-2.5 rounded-xl border border-white/10 text-xs" data-theme="winter">❄ Лёд</button>
+          <button class="theme-btn px-2 py-2.5 rounded-xl border border-white/10 text-xs" data-theme="ember">🌅 Рассвет</button>
+          <button class="theme-btn px-2 py-2.5 rounded-xl border border-white/10 text-xs" data-theme="mist">🌫 Туман</button>
+          <button class="theme-btn px-2 py-2.5 rounded-xl border border-white/10 text-xs" data-theme="void">🌑 Пустота</button>
         </div>
       </div>
-      <div class="mb-7">
-        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Эффекты</label>
-        <label class="flex items-center justify-between mb-3">
-          <span class="text-sm">Частицы</span>
-          <input type="checkbox" id="particles" checked class="accent-sky-500 w-5 h-5">
+
+      <div class="mb-6">
+        <label class="flex items-center justify-between cursor-pointer mb-3">
+          <span class="text-sm">Авто-атмосфера по главам</span>
+          <input type="checkbox" id="auto-theme" checked class="accent-sky-400 w-5 h-5">
         </label>
-        <input type="range" id="intensity" min="10" max="100" value="45" class="w-full accent-sky-500">
+        <label class="flex items-center justify-between cursor-pointer mb-3">
+          <span class="text-sm">Эффект «караоке» (фокус)</span>
+          <input type="checkbox" id="focus-mode" checked class="accent-sky-400 w-5 h-5">
+        </label>
+        <label class="flex items-center justify-between cursor-pointer">
+          <span class="text-sm">Частицы</span>
+          <input type="checkbox" id="particles" checked class="accent-sky-400 w-5 h-5">
+        </label>
       </div>
+
+      <div class="mb-4">
+        <label class="text-xs uppercase tracking-wider text-slate-500 mb-2 block">Интенсивность частиц</label>
+        <input type="range" id="intensity" min="10" max="100" value="50" class="w-full accent-sky-400">
+      </div>
+
       <div>
-        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Межстрочный</label>
-        <input type="range" id="lh" min="1.4" max="2.2" step="0.1" value="1.75" class="w-full accent-sky-500">
+        <label class="text-xs uppercase tracking-wider text-slate-500 mb-2 block">Межстрочный</label>
+        <input type="range" id="lh" min="1.4" max="2.2" step="0.1" value="1.8" class="w-full accent-sky-400">
       </div>
     </div>
   </aside>
 
-  <main id="main" class="relative z-10 h-screen overflow-y-auto pt-16 pb-24">
+  <main id="main" class="relative z-10 h-screen overflow-y-auto pt-16 pb-20">
     <article class="max-w-2xl mx-auto px-5 py-10">
       <div class="text-center mb-12">
         <p class="text-sky-400/70 text-sm tracking-[0.2em] uppercase mb-3" id="ch-num">Глава I</p>
         <h2 class="font-cinzel text-3xl sm:text-4xl text-white mb-4" id="ch-title">Пробуждение Эфира</h2>
-        <div class="w-16 h-px bg-gradient-to-r from-transparent via-sky-500/50 to-transparent mx-auto"></div>
+        <div class="w-16 h-px bg-gradient-to-r from-transparent via-sky-400/50 to-transparent mx-auto"></div>
       </div>
       <div id="content" class="reader-text"></div>
-      <div class="mt-14 pt-8 border-t border-white/10 flex items-center justify-between">
-        <button id="prev" class="px-4 py-2 rounded-full border border-white/10 text-sm text-gray-500 disabled:opacity-30" disabled>← Назад</button>
-        <span class="text-xs text-gray-600"><span id="cur">1</span> / 2</span>
-        <button id="next" class="px-4 py-2 rounded-full bg-sky-600/20 border border-sky-500/40 text-sky-200 text-sm hover:bg-sky-600/30">Далее →</button>
+      <div class="mt-14 pt-8 border-t border-sky-500/15 flex items-center justify-between">
+        <button id="prev" class="px-4 py-2 rounded-full border border-white/10 text-sm text-slate-500 disabled:opacity-30" disabled>← Назад</button>
+        <span class="text-xs text-slate-600"><span id="cur">1</span> / 2</span>
+        <button id="next" class="px-4 py-2 rounded-full bg-sky-600/25 border border-sky-400/40 text-sky-200 text-sm hover:bg-sky-600/40">Далее →</button>
       </div>
     </article>
   </main>
 
   <div class="fixed bottom-0 inset-x-0 h-1 bg-white/5 z-40">
-    <div id="prog" class="h-full bg-gradient-to-r from-sky-500 to-cyan-400 transition-all" style="width:0%"></div>
+    <div id="prog" class="h-full bg-gradient-to-r from-sky-500 to-cyan-400 transition-all duration-150" style="width:0%"></div>
   </div>
 
   <script>
+    const FONTS = [
+      { name: 'Playfair Display', val: "'Playfair Display', serif" },
+      { name: 'Cinzel', val: "'Cinzel', serif" },
+      { name: 'Cormorant Garamond', val: "'Cormorant Garamond', serif" },
+      { name: 'Literata', val: "'Literata', serif" },
+      { name: 'Merriweather', val: "'Merriweather', serif" },
+      { name: 'Lora', val: "'Lora', serif" },
+      { name: 'Source Serif 4', val: "'Source Serif 4', serif" },
+      { name: 'EB Garamond', val: "'EB Garamond', serif" },
+      { name: 'Crimson Pro', val: "'Crimson Pro', serif" },
+      { name: 'Libre Baskerville', val: "'Libre Baskerville', serif" },
+      { name: 'Spectral', val: "'Spectral', serif" },
+      { name: 'Roboto Slab', val: "'Roboto Slab', serif" },
+      { name: 'PT Serif', val: "'PT Serif', serif" },
+      { name: 'Noto Serif', val: "'Noto Serif', serif" },
+      { name: 'Inter', val: "'Inter', sans-serif" },
+    ];
+
     const chapters = {
       1: {
-        num: "Глава I", title: "Пробуждение Эфира", theme: "cosmic",
+        num: "Глава I", title: "Пробуждение Эфира", theme: "flame",
         html: `<p>Эфир заполнял поднебесье. Оно было настолько безграничным, что мы сами казались карликами в этом титаническом мире.</p>
 <p>Мир, в котором белая Луна не была одинока, рядом с ней было ещё десять таких же огромных соседей, и все они отличались по цвету и каждая из них была настолько великолепна и велика, что казалось — каждая из них не просто светится, а распространяет свою ауру по поверхности этой планеты, для которой даже такие махины были карликами.</p>
 <p>Но это было не всё.<br>Кроме десяти главных были сотни и тысячи поменьше, и многие из них уже были не одного конкретного цвета, а связью двух, трёх и более цветов.</p>
@@ -175,128 +224,155 @@
       }
     };
 
-    let cur = 1, theme = 'cosmic', particlesOn = true, intensity = 45;
-    const canvas = document.getElementById('fx'), ctx = canvas.getContext('2d');
-    let w, h, parts = [];
+    let cur=1, theme='flame', particlesOn=true, intensity=50, focusMode=true, autoTheme=true;
+    const canvas=document.getElementById('fx'), ctx=canvas.getContext('2d');
+    let w,h,parts=[];
 
-    function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; initParts(); }
-    class Part {
-      constructor(t) { this.t = t; this.reset(true); }
-      reset(init) {
-        this.x = Math.random()*w; this.y = init ? Math.random()*h : (this.t==='ember'?h+10:-20);
-        if (this.t==='winter') { this.s=Math.random()*2.5+1; this.vy=Math.random()*1.2+0.4; this.vx=(Math.random()-0.5)*0.8; this.o=Math.random()*0.6+0.2; this.w=Math.random()*6.28; }
-        else if (this.t==='ember') { this.s=Math.random()*2.5+0.8; this.vy=-(Math.random()*1.5+0.5); this.vx=(Math.random()-0.5)*0.6; this.o=1; this.life=1; this.dec=Math.random()*0.01+0.004; }
-        else if (this.t==='mist') { this.s=Math.random()*40+20; this.vy=Math.random()*0.15+0.03; this.vx=(Math.random()-0.5)*0.3; this.o=Math.random()*0.08+0.02; }
-        else { this.s=Math.random()*2+0.5; this.vy=Math.random()*0.4+0.1; this.vx=(Math.random()-0.5)*0.25; this.o=Math.random()*0.45+0.1; this.tw=Math.random()*6.28; }
+    const fontList=document.getElementById('font-list');
+    FONTS.forEach((f,i)=>{
+      const b=document.createElement('button');
+      b.className='font-option w-full text-left px-3 py-2 rounded-lg border border-white/10 hover:border-sky-500/30 text-sm '+(i===0?'active':'');
+      b.style.fontFamily=f.val;
+      b.textContent=f.name;
+      b.dataset.font=f.val;
+      b.onclick=()=>{
+        document.querySelectorAll('.font-option').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active');
+        document.documentElement.style.setProperty('--font', f.val);
+      };
+      fontList.appendChild(b);
+    });
+
+    function resize(){w=canvas.width=innerWidth;h=canvas.height=innerHeight;initParts();}
+    class Part{
+      constructor(t){this.t=t;this.reset(true);}
+      reset(init){
+        this.x=Math.random()*w; this.y=init?Math.random()*h:(this.t==='ember'||this.t==='flame'?h+10:-20);
+        if(this.t==='winter'){this.s=Math.random()*2.5+1;this.vy=Math.random()*1.1+0.4;this.vx=(Math.random()-0.5)*0.7;this.o=Math.random()*0.55+0.25;this.w=Math.random()*6.28;}
+        else if(this.t==='ember'||this.t==='flame'){this.s=Math.random()*2.8+0.9;this.vy=-(Math.random()*1.6+0.5);this.vx=(Math.random()-0.5)*0.7;this.o=1;this.life=1;this.dec=Math.random()*0.009+0.003;}
+        else if(this.t==='mist'){this.s=Math.random()*45+20;this.vy=Math.random()*0.14+0.03;this.vx=(Math.random()-0.5)*0.3;this.o=Math.random()*0.07+0.02;}
+        else{this.s=Math.random()*2.1+0.5;this.vy=Math.random()*0.4+0.1;this.vx=(Math.random()-0.5)*0.25;this.o=Math.random()*0.4+0.12;this.tw=Math.random()*6.28;}
       }
-      update() {
-        if (this.t==='winter') { this.w+=0.02; this.x+=Math.sin(this.w)*0.4+this.vx; this.y+=this.vy; if(this.y>h+10)this.reset(); }
-        else if (this.t==='ember') { this.x+=this.vx; this.y+=this.vy; this.life-=this.dec; this.o=this.life*0.8; if(this.life<=0||this.y<-20)this.reset(); }
-        else if (this.t==='mist') { this.x+=this.vx; this.y+=this.vy; if(this.y>h+50)this.reset(); }
-        else { this.y+=this.vy; this.x+=this.vx; this.tw+=0.03; if(this.y>h+10)this.reset(); }
+      update(){
+        if(this.t==='winter'){this.w+=0.02;this.x+=Math.sin(this.w)*0.4+this.vx;this.y+=this.vy;if(this.y>h+10)this.reset();}
+        else if(this.t==='ember'||this.t==='flame'){this.x+=this.vx;this.y+=this.vy;this.life-=this.dec;this.o=Math.max(0,this.life*0.85);if(this.life<=0||this.y<-25)this.reset();}
+        else if(this.t==='mist'){this.x+=this.vx;this.y+=this.vy;if(this.y>h+50)this.reset();}
+        else{this.y+=this.vy;this.x+=this.vx;this.tw+=0.03;if(this.y>h+10)this.reset();}
       }
-      draw() {
+      draw(){
         ctx.save();
-        if (this.t==='winter') {
-          ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,6.28); ctx.fillStyle=`rgba(200,220,255,${this.o})`; ctx.fill();
-        } else if (this.t==='ember') {
-          const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s*2);
-          g.addColorStop(0,`rgba(255,180,80,${this.o})`); g.addColorStop(1,'rgba(180,40,10,0)');
-          ctx.beginPath(); ctx.arc(this.x,this.y,this.s*2,0,6.28); ctx.fillStyle=g; ctx.fill();
-        } else if (this.t==='mist') {
-          const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s);
-          g.addColorStop(0,`rgba(150,200,190,${this.o})`); g.addColorStop(1,'rgba(80,140,130,0)');
-          ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,6.28); ctx.fillStyle=g; ctx.fill();
-        } else {
-          const a=this.o*(0.7+0.3*Math.sin(this.tw));
-          ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,6.28); ctx.fillStyle=`rgba(125,211,252,${a})`; ctx.fill();
+        if(this.t==='winter'){ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,6.28);ctx.fillStyle=`rgba(186,230,253,${this.o})`;ctx.fill();}
+        else if(this.t==='flame'){
+          const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s*2.4);
+          g.addColorStop(0,`rgba(125,211,252,${this.o})`); g.addColorStop(0.5,`rgba(56,189,248,${this.o*0.5})`); g.addColorStop(1,'rgba(14,165,233,0)');
+          ctx.beginPath();ctx.arc(this.x,this.y,this.s*2.4,0,6.28);ctx.fillStyle=g;ctx.fill();
         }
+        else if(this.t==='ember'){
+          const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s*2.2);
+          g.addColorStop(0,`rgba(251,191,36,${this.o})`); g.addColorStop(0.5,`rgba(249,115,22,${this.o*0.5})`); g.addColorStop(1,'rgba(154,52,18,0)');
+          ctx.beginPath();ctx.arc(this.x,this.y,this.s*2.2,0,6.28);ctx.fillStyle=g;ctx.fill();
+        }
+        else if(this.t==='mist'){const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s);g.addColorStop(0,`rgba(165,243,252,${this.o})`);g.addColorStop(1,'rgba(34,211,238,0)');ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,6.28);ctx.fillStyle=g;ctx.fill();}
+        else{const a=this.o*(0.65+0.35*Math.sin(this.tw));ctx.beginPath();ctx.arc(this.x,this.y,this.s,0,6.28);ctx.fillStyle=`rgba(125,211,252,${a})`;ctx.fill();}
         ctx.restore();
       }
     }
-    function initParts() {
-      parts=[]; const n=Math.min(Math.floor(intensity/100*110), Math.floor(w*h/12000));
-      for(let i=0;i<n;i++) parts.push(new Part(theme));
-    }
-    function loop() {
-      ctx.clearRect(0,0,w,h);
-      if (particlesOn) parts.forEach(p=>{p.update();p.draw();});
-      requestAnimationFrame(loop);
-    }
+    function initParts(){parts=[];const n=Math.min(Math.floor(intensity/100*130),Math.floor(w*h/11000));for(let i=0;i<n;i++)parts.push(new Part(theme==='void'?'cosmic':theme));}
+    function loop(){ctx.clearRect(0,0,w,h);if(particlesOn)parts.forEach(p=>{p.update();p.draw();});requestAnimationFrame(loop);}
 
-    function load(n) {
-      const c = chapters[n]; if(!c) return;
-      cur = n;
-      document.getElementById('content').innerHTML = c.html;
-      document.getElementById('ch-num').textContent = c.num;
-      document.getElementById('ch-title').textContent = c.title;
-      document.getElementById('ch-label').textContent = c.num + ' · ' + c.title;
-      document.getElementById('cur').textContent = n;
-      document.getElementById('prev').disabled = n<=1;
-      document.getElementById('next').disabled = !chapters[n+1];
-      document.querySelectorAll('.ch-item').forEach(b => b.classList.toggle('active', +b.dataset.ch===n));
-      setTheme(c.theme);
+    function load(n){
+      const c=chapters[n];if(!c)return;
+      cur=n;
+      document.getElementById('content').innerHTML=c.html;
+      document.getElementById('ch-num').textContent=c.num;
+      document.getElementById('ch-title').textContent=c.title;
+      document.getElementById('ch-label').textContent=c.num+' · '+c.title;
+      document.getElementById('cur').textContent=n;
+      document.getElementById('prev').disabled=n<=1;
+      document.getElementById('next').disabled=!chapters[n+1];
+      document.querySelectorAll('.ch-item').forEach(b=>b.classList.toggle('active',+b.dataset.ch===n));
+      if(autoTheme) setTheme(c.theme);
       document.getElementById('main').scrollTo({top:0,behavior:'smooth'});
+      setTimeout(updateFocus,100);
     }
-    function setTheme(t) {
-      theme = t;
-      document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.theme===t));
-      const bgs = {cosmic:'#050810', winter:'#0a1218', ember:'#100a08', mist:'#081210'};
-      document.documentElement.style.setProperty('--bg', bgs[t]||'#050810');
-      document.body.style.background = bgs[t]||'#050810';
+    function setTheme(t){
+      theme=t;
+      document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===t));
+      const bgs={flame:'#030712',cosmic:'#020617',winter:'#0a1219',ember:'#120a06',mist:'#061214',void:'#000000'};
+      document.documentElement.style.setProperty('--bg',bgs[t]||'#030712');
+      document.body.style.background=bgs[t]||'#030712';
       initParts();
     }
 
-    document.getElementById('btn-set').onclick = () => document.getElementById('settings-panel').classList.add('open');
-    document.getElementById('close-set').onclick = () => document.getElementById('settings-panel').classList.remove('open');
-    document.getElementById('btn-ch').onclick = () => document.getElementById('chapters-panel').classList.add('open');
-    document.getElementById('close-ch').onclick = () => document.getElementById('chapters-panel').classList.remove('open');
-    document.getElementById('btn-fs').onclick = () => {
-      if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(()=>{}); document.body.classList.add('fullscreen'); }
-      else { document.exitFullscreen(); document.body.classList.remove('fullscreen','show-ui'); }
+    function updateFocus(){
+      if(!focusMode){
+        document.querySelectorAll('.reader-text p').forEach(p=>{p.classList.remove('active','near');p.style.opacity='';p.style.transform='';});
+        return;
+      }
+      const paras=[...document.querySelectorAll('.reader-text p')];
+      const mid=window.innerHeight*0.42;
+      let best=null,bestDist=Infinity;
+      paras.forEach(p=>{
+        const r=p.getBoundingClientRect();
+        const center=r.top+r.height/2;
+        const dist=Math.abs(center-mid);
+        if(dist<bestDist){bestDist=dist;best=p;}
+      });
+      paras.forEach(p=>{
+        p.classList.remove('active','near');
+        if(p===best) p.classList.add('active');
+        else {
+          const r=p.getBoundingClientRect();
+          const center=r.top+r.height/2;
+          if(Math.abs(center-mid)<window.innerHeight*0.28) p.classList.add('near');
+        }
+      });
+    }
+
+    document.getElementById('btn-set').onclick=()=>document.getElementById('settings-panel').classList.add('open');
+    document.getElementById('close-set').onclick=()=>document.getElementById('settings-panel').classList.remove('open');
+    document.getElementById('btn-ch').onclick=()=>document.getElementById('chapters-panel').classList.add('open');
+    document.getElementById('close-ch').onclick=()=>document.getElementById('chapters-panel').classList.remove('open');
+    document.getElementById('btn-fs').onclick=()=>{
+      if(!document.fullscreenElement){document.documentElement.requestFullscreen().catch(()=>{});document.body.classList.add('fullscreen');}
+      else{document.exitFullscreen();document.body.classList.remove('fullscreen','show-ui');}
     };
-    document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) document.body.classList.remove('fullscreen','show-ui'); });
-    document.addEventListener('mousemove', () => {
-      if (!document.body.classList.contains('fullscreen')) return;
+    document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement)document.body.classList.remove('fullscreen','show-ui');});
+    document.addEventListener('mousemove',()=>{
+      if(!document.body.classList.contains('fullscreen'))return;
       document.body.classList.add('show-ui');
-      clearTimeout(window._uit);
-      window._uit = setTimeout(() => document.body.classList.remove('show-ui'), 2200);
+      clearTimeout(window._uit);window._uit=setTimeout(()=>document.body.classList.remove('show-ui'),2200);
     });
 
-    document.getElementById('fs').oninput = e => {
-      document.documentElement.style.setProperty('--font-size', e.target.value+'px');
-      document.getElementById('fs-val').textContent = e.target.value;
+    document.getElementById('fs').oninput=e=>document.documentElement.style.setProperty('--font-size',e.target.value+'px');
+    document.getElementById('fs-down').onclick=()=>{const s=document.getElementById('fs');s.value=Math.max(16,+s.value-1);s.dispatchEvent(new Event('input'));};
+    document.getElementById('fs-up').onclick=()=>{const s=document.getElementById('fs');s.value=Math.min(28,+s.value+1);s.dispatchEvent(new Event('input'));};
+    document.querySelectorAll('.theme-btn').forEach(b=>b.onclick=()=>{autoTheme=false;document.getElementById('auto-theme').checked=false;setTheme(b.dataset.theme);});
+    document.getElementById('auto-theme').onchange=e=>{autoTheme=e.target.checked;if(autoTheme)setTheme(chapters[cur].theme);};
+    document.getElementById('focus-mode').onchange=e=>{focusMode=e.target.checked;updateFocus();};
+    document.getElementById('particles').onchange=e=>particlesOn=e.target.checked;
+    document.getElementById('intensity').oninput=e=>{intensity=+e.target.value;initParts();};
+    document.getElementById('lh').oninput=e=>document.documentElement.style.setProperty('--line-height',e.target.value);
+    document.getElementById('prev').onclick=()=>{if(cur>1)load(cur-1);};
+    document.getElementById('next').onclick=()=>{if(chapters[cur+1])load(cur+1);};
+    document.querySelectorAll('.ch-item').forEach(b=>b.onclick=()=>{load(+b.dataset.ch);document.getElementById('chapters-panel').classList.remove('open');});
+
+    const main=document.getElementById('main');
+    main.onscroll=()=>{
+      const p=main.scrollTop/(main.scrollHeight-main.clientHeight)*100;
+      document.getElementById('prog').style.width=(p||0)+'%';
+      updateFocus();
     };
-    document.getElementById('fs-down').onclick = () => { const s=document.getElementById('fs'); s.value=Math.max(16,+s.value-1); s.dispatchEvent(new Event('input')); };
-    document.getElementById('fs-up').onclick = () => { const s=document.getElementById('fs'); s.value=Math.min(28,+s.value+1); s.dispatchEvent(new Event('input')); };
-    document.querySelectorAll('.font-option').forEach(b => b.onclick = () => {
-      document.querySelectorAll('.font-option').forEach(x=>x.classList.remove('active'));
-      b.classList.add('active');
-      document.documentElement.style.setProperty('--font', b.dataset.font);
-    });
-    document.querySelectorAll('.theme-btn').forEach(b => b.onclick = () => setTheme(b.dataset.theme));
-    document.getElementById('particles').onchange = e => { particlesOn = e.target.checked; };
-    document.getElementById('intensity').oninput = e => { intensity = +e.target.value; initParts(); };
-    document.getElementById('lh').oninput = e => document.documentElement.style.setProperty('--line-height', e.target.value);
-    document.getElementById('prev').onclick = () => { if(cur>1) load(cur-1); };
-    document.getElementById('next').onclick = () => { if(chapters[cur+1]) load(cur+1); };
-    document.querySelectorAll('.ch-item').forEach(b => b.onclick = () => { load(+b.dataset.ch); document.getElementById('chapters-panel').classList.remove('open'); });
-    document.getElementById('main').onscroll = () => {
-      const el = document.getElementById('main');
-      const p = el.scrollTop / (el.scrollHeight - el.clientHeight) * 100;
-      document.getElementById('prog').style.width = (p||0)+'%';
-    };
-    document.addEventListener('keydown', e => {
-      if (e.key==='Escape') { document.getElementById('settings-panel').classList.remove('open'); document.getElementById('chapters-panel').classList.remove('open'); if(document.fullscreenElement) document.exitFullscreen(); }
-      if ((e.key==='f'||e.key==='а') && !e.ctrlKey) document.getElementById('btn-fs').click();
-      if (e.key==='ArrowRight' && chapters[cur+1]) load(cur+1);
-      if (e.key==='ArrowLeft' && cur>1) load(cur-1);
+
+    document.addEventListener('keydown',e=>{
+      if(e.key==='Escape'){document.getElementById('settings-panel').classList.remove('open');document.getElementById('chapters-panel').classList.remove('open');if(document.fullscreenElement)document.exitFullscreen();}
+      if((e.key==='f'||e.key==='а')&&!e.ctrlKey)document.getElementById('btn-fs').click();
+      if(e.key==='ArrowRight'&&chapters[cur+1])load(cur+1);
+      if(e.key==='ArrowLeft'&&cur>1)load(cur-1);
     });
 
-    const params = new URLSearchParams(location.search);
-    const start = +(params.get('ch')||1);
-    resize(); load(chapters[start]?start:1); loop();
-    addEventListener('resize', resize);
+    resize();load(1);loop();
+    addEventListener('resize',resize);
   </script>
 </body>
 </html>
