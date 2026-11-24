@@ -10,8 +10,8 @@
 :root{
   --bg-top:#030712;--bg-mid:#030712;--bg-bot:#030712;
   --text:#e0f2fe;--text-bright:1;
-  --font-size:18px;--line-height:1.85;--font:'Lora',serif;--weight:400;
-  --accent:#38bdf8;--align:left;--content-width:30rem;--focus-str:1.06
+  --font-size:18px;--line-height:1.9;--font:'Lora',serif;--weight:400;
+  --accent:#38bdf8;--align:left;--content-width:30rem
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{height:100%;background:transparent;overscroll-behavior:none}
@@ -40,8 +40,8 @@ body.fullscreen.show-ui #top-bar{opacity:1;pointer-events:auto;transform:transla
 }
 .reader-wrap{
   max-width:var(--content-width);margin:0 auto;
-  padding:1.4rem 2rem 4rem;width:100%;
-  overflow:hidden;background:transparent
+  padding:1.4rem 1.6rem 4rem;width:100%;
+  background:transparent
 }
 .reader-text{
   font-family:var(--font);font-size:var(--font-size);font-weight:var(--weight);
@@ -51,29 +51,41 @@ body.fullscreen.show-ui #top-bar{opacity:1;pointer-events:auto;transform:transla
   background:transparent
 }
 .reader-text .ph{
-  display:inline-block;
-  transform-origin:center center;
-  will-change:transform,opacity;
+  display:inline;
+  opacity:.42;
   transition:none;
-  opacity:.40;
-  transform:scale(0.98);
-  vertical-align:baseline;
-  white-space:nowrap;
-  max-width:100%
 }
-.reader-text .ph.focus{opacity:1}
+.reader-text .ph.focus{
+  opacity:1;
+}
 .reader-text p{
-  margin:0 0 1.15em;
+  margin:0 0 1.2em;
   background:transparent;
-  overflow:visible
 }
 .reader-text p.dropcap::first-letter{
   font-family:Cinzel,serif;
-  font-size:1.55em;
+  font-size:1.5em;
   color:var(--accent);
   font-weight:600;
-  margin-right:.02em
 }
+.mode-oneword .ph{opacity:.18!important;font-size:1em}
+.mode-oneword .ph.focus{
+  opacity:1!important;
+  font-size:1.35em;
+  font-weight:600;
+  text-shadow:0 0 18px rgba(56,189,248,.35);
+}
+.mode-soft .ph:not(.focus){opacity:.22!important}
+.mode-cinema .ph.focus{text-shadow:0 0 14px rgba(56,189,248,.18);letter-spacing:.01em}
+.mode-sharp .ph.focus{filter:contrast(1.08) brightness(1.05)}
+.mode-pulse .ph.focus{animation:pulseG 2.2s ease-in-out infinite}
+@keyframes pulseG{0%,100%{filter:brightness(1)}50%{filter:brightness(1.12)}}
+.mode-float .ph.focus{animation:floatY 4s ease-in-out infinite}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.mode-breathe .ph.focus{animation:breathe 3.2s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:1}50%{opacity:.85}}
+.mode-drift .ph.focus{animation:driftX 5s ease-in-out infinite}
+@keyframes driftX{0%,100%{transform:translateX(0)}50%{transform:translateX(1.5px)}}
 .c-red{color:#f87171!important;text-shadow:0 0 8px rgba(239,68,68,.4)}
 .c-cyan{color:#22d3ee!important;text-shadow:0 0 8px rgba(6,182,212,.4)}
 .c-green{color:#4ade80!important;text-shadow:0 0 8px rgba(34,197,94,.35)}
@@ -89,17 +101,6 @@ body.fullscreen.show-ui #top-bar{opacity:1;pointer-events:auto;transform:transla
 .fx-sand{transition:color .5s,text-shadow .5s}.fx-sand.on{color:#fbbf24;text-shadow:0 0 8px rgba(251,191,36,.5)}
 .fx-shake.on{animation:shake .4s ease-in-out}
 @keyframes shake{0%,100%{transform:translateX(0)}40%{transform:translateX(-1.2px)}60%{transform:translateX(1.2px)}}
-.mode-float .ph.focus{animation:floatY 4.5s ease-in-out infinite}
-@keyframes floatY{0%,100%{transform:scale(var(--sc,1.06)) translateY(0)}50%{transform:scale(var(--sc,1.06)) translateY(-1.5px)}}
-.mode-breathe .ph.focus{animation:breathe 3.5s ease-in-out infinite}
-@keyframes breathe{0%,100%{transform:scale(var(--sc,1.06))}50%{transform:scale(calc(var(--sc,1.06)*1.015))}}
-.mode-soft .ph:not(.focus){filter:blur(.4px);opacity:.26!important}
-.mode-cinema .ph.focus{text-shadow:0 0 12px rgba(56,189,248,.12)}
-.mode-sharp .ph.focus{filter:contrast(1.06) brightness(1.03)}
-.mode-pulse .ph.focus{animation:pulseG 2.2s ease-in-out infinite}
-@keyframes pulseG{0%,100%{filter:brightness(1)}50%{filter:brightness(1.08)}}
-.mode-drift .ph.focus{animation:driftX 6s ease-in-out infinite}
-@keyframes driftX{0%,100%{transform:scale(var(--sc,1.06)) translateX(0)}50%{transform:scale(var(--sc,1.06)) translateX(1px)}}
 .ch-nav{
   display:flex;align-items:center;justify-content:space-between;
   padding:1.2rem 0 0;margin-top:1.5rem;
@@ -179,7 +180,7 @@ input[type=color]{width:28px;height:22px;border:none;border-radius:4px;backgroun
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Жирность</label>
 <input type="range" id="weight" min="300" max="700" step="100" value="400" class="w-full"></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Межстрочный</label>
-<input type="range" id="lh" min="1.4" max="2.2" step="0.05" value="1.85" class="w-full"></div>
+<input type="range" id="lh" min="1.4" max="2.3" step="0.05" value="1.9" class="w-full"></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Ширина</label>
 <input type="range" id="width" min="16" max="36" value="30" class="w-full"></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Выравнивание</label>
@@ -201,6 +202,7 @@ input[type=color]{width:28px;height:22px;border:none;border-radius:4px;backgroun
 <div class="section-body space-y-2">
 <div class="mode-grid">
 <button class="mode-btn active" data-m="still">Покой</button>
+<button class="mode-btn" data-m="oneword">1 слово</button>
 <button class="mode-btn" data-m="float">Парение</button>
 <button class="mode-btn" data-m="breathe">Дыхание</button>
 <button class="mode-btn" data-m="soft">Мягкий</button>
@@ -209,12 +211,10 @@ input[type=color]{width:28px;height:22px;border:none;border-radius:4px;backgroun
 <button class="mode-btn" data-m="pulse">Пульс</button>
 <button class="mode-btn" data-m="drift">Дрейф</button>
 </div>
-<div><label class="text-[10px] text-slate-500 mb-0.5 block">Сила приближения</label>
-<input type="range" id="focus-str" min="1.02" max="1.10" step="0.01" value="1.06" class="w-full"></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Ширина зоны фокуса</label>
-<input type="range" id="zone" min="0.14" max="0.40" step="0.01" value="0.22" class="w-full"></div>
+<input type="range" id="zone" min="0.12" max="0.40" step="0.01" value="0.22" class="w-full"></div>
 <label class="flex items-center justify-between text-xs cursor-pointer">
-<span>Плавный фокус по словам</span>
+<span>Плавный фокус</span>
 <input type="checkbox" id="focus-mode" checked class="w-3.5 h-3.5 accent-sky-400">
 </label>
 </div></div>
@@ -288,7 +288,7 @@ const PRESETS={flame:{top:'#030712',mid:'#051525',bot:'#0a1a2e'},cosmic:{top:'#0
 const COLOR_WORDS=[{re:/\b(кроваво-красн\w*|красн\w*)\b/gi,cls:'c-red'},{re:/\b(бирюзов\w*|голуб\w*)\b/gi,cls:'c-cyan'},{re:/\b(ядовито-зелён\w*|зелён\w*)\b/gi,cls:'c-green'},{re:/\b(золот\w*|жёлт\w*)\b/gi,cls:'c-gold'},{re:/\b(фиолетов\w*|лилов\w*)\b/gi,cls:'c-purple'},{re:/\b(син\w*)\b/gi,cls:'c-blue'},{re:/\b(бел\w*)\b/gi,cls:'c-white'},{re:/\b(чёрн\w*)\b/gi,cls:'c-black'}];
 const chapters={1:{num:"Глава I",title:"Пробуждение Эфира",theme:"flame",html:`\n<p class=\"dropcap\">Эфир заполнял поднебесье.</p>\n<p>Оно было настолько безграничным, что мы сами казались карликами в этом титаническом мире.</p>\n<p>Мир, в котором <span class=\"fx-moon\">белая Луна</span> не была одинока.</p>\n<p>Рядом с ней было ещё десять таких же огромных соседей.</p>\n<p>И все они отличались по цвету.</p>\n<p>Каждая из них была настолько великолепна и велика, что казалось — каждая из них не просто светится.</p>\n<p>А распространяет свою ауру по поверхности этой планеты.</p>\n<p>Для которой даже такие махины были карликами.</p>\n<p>Но это было не всё.</p>\n<p>Кроме десяти главных были сотни и тысячи поменьше.</p>\n<p>И многие из них уже были не одного конкретного цвета, а связью двух, трёх и более цветов.</p>\n<p>Из-за чего это ночное время казалось скорее не временем тишины и покоя, а <span class=\"fx-glow\">церемониальным</span>.</p>\n<p>Словно на тебя смотрят миллионы чьих-то глаз, оценивающих — достоин ты, или нет.</p>\n<p>Кто-то с жаждой <span class=\"fx-blood\">убийства</span>.</p>\n<p>Кто-то с интересом или пренебрежением.</p>\n<p>Словно для кого-то это всё игра и забава, а для иных — нечто серьёзное.</p>\n<p>И именно такую нешуточную и опасную ауру имела главная <span class=\"fx-moon\">белая Луна</span>.</p>\n<p>Но медленно, несмотря на масштабы самого титанического мира из возможных, луны ушли за горизонт.</p>\n<p>Их свет сменился сотнями тысяч солнечных.</p>\n<p>В той же системе — десять главных, у каждого свой цвет, и миллионы по убыванию в размере, с разной палитрой цветов.</p>\n<p style=\"color:#fde68a;font-style:italic\">Лунный свет сменился солнечным.</p>\n<p>Первые лучи коснулись вершин далёких хребтов.</p>\n<p>И мир на мгновение замер — будто сам эфир затаил дыхание.</p>\n<p>Воздух стал плотнее, тяжелее.</p>\n<p>В нём появился вкус металла и чего-то древнего, почти забытого.</p>\n<p>Там, где ещё мгновение назад царила церемониальная тьма, теперь разливалось мягкое, но неотвратимое сияние.</p>\n<p>Оно не было похоже на обычный рассвет.</p>\n<p>Оно было <em>осознанным</em>.</p>\n<p>Я стоял на краю обсидиановой платформы и смотрел, как десять новых светил поднимаются над горизонтом один за другим — каждый своего оттенка.</p>\n<p>Кроваво-красный. Холодный бирюзовый. Ядовито-зелёный.</p>\n<p>Золотой, почти ослепительный. Фиолетовый, будто сгусток самой ночи.</p>\n<p>И где-то между ними — едва заметная, почти прозрачная — та, что светила мягче всех.</p>\n<p>Та, что смотрела прямо на меня.</p>\n<p>Под ногами хрустел чёрный <span class=\"fx-sand\">песок</span>.</p>\n<p>Каждый шаг оставлял след, который медленно затягивался, будто поверхность дышала.</p>\n`},2:{num:"Глава II",title:"Первый Рассвет",theme:"ember",html:`\n<p class=\"dropcap\">Свет не просто осветил мир — он <span class=\"fx-shake\">изменил</span> его.</p>\n<p>Там, где раньше лежала холодная тьма, теперь ползли длинные тени.</p>\n<p>Они были живыми.</p>\n<p>Двигались не так, как должны двигаться тени от солнца.</p>\n<p>Они тянулись к источникам света, словно хотели поглотить их.</p>\n<p style=\"color:#fde68a;font-style:italic\">Один из красных солнец вспыхнул ярче.</p>\n<p style=\"color:#fde68a;font-style:italic\">На секунду весь горизонт окрасился в цвет <span class=\"fx-blood\">крови</span> и раскалённого металла.</p>\n<p>Я почувствовал тепло на коже. Настоящее, обжигающее.</p>\n<p>Эфир вокруг начал дрожать — мелкая вибрация, которую скорее чувствуешь костями, чем слышишь.</p>\n<p>Где-то далеко, за линией хребтов, что-то огромное медленно поднялось.</p>\n<p>Слишком большое, чтобы быть живым существом.</p>\n<p>Слишком правильное, чтобы быть горой.</p>\n<p>И в этот момент я понял: рассвет здесь — не начало дня.</p>\n<p>Это начало охоты.</p>\n<p><span class=\"fx-moon\">Белая Луна</span>, даже уйдя за горизонт, всё ещё смотрела.</p>\n<p>Я чувствовал её взгляд затылком.</p>\n`}};
 let cur=1,theme='flame',particlesOn=true,intensity=14,focusMode=true,autoTheme=true,wordFx=true;
-let textMode='still',zoneW=0.22,focusStr=1.06;
+let textMode='still',zoneW=0.22;
 let partColor={r:56,g:189,b:248};
 const canvas=document.getElementById('fx'),ctx=canvas.getContext('2d',{alpha:true});
 const atmCanvas=document.getElementById('atm-fx'),atmCtx=atmCanvas.getContext('2d',{alpha:true});
@@ -309,10 +309,10 @@ function loop(){ctx.clearRect(0,0,w,h);if(particlesOn&&intensity>0)for(let i=0;i
 function applyGradient(t,m,b){document.documentElement.style.setProperty('--bg-top',t);document.documentElement.style.setProperty('--bg-mid',m);document.documentElement.style.setProperty('--bg-bot',b);document.getElementById('bg-top').value=t;document.getElementById('bg-mid').value=m;document.getElementById('bg-bot').value=b}
 function setTheme(t){theme=t;document.querySelectorAll('.theme-btn').forEach(b=>b.classList.toggle('active',b.dataset.theme===t));const p=PRESETS[t]||PRESETS.flame;applyGradient(p.top,p.mid,p.bot);initParts()}
 function colorize(html){let out=html;COLOR_WORDS.forEach(({re,cls})=>{out=out.replace(re,m=>{if(m.includes('<'))return m;return `<span class=\"${cls}\">${m}</span>`})});return out}
-function wrapWords(html){const div=document.createElement('div');div.innerHTML=html;div.querySelectorAll('p').forEach(p=>{const walker=document.createTreeWalker(p,NodeFilter.SHOW_TEXT,null);const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);nodes.forEach(tn=>{if(!tn.nodeValue)return;if(!/\S/.test(tn.nodeValue))return;const parts=tn.nodeValue.split(/(\s+)/);const frag=document.createDocumentFragment();parts.forEach(part=>{if(part==='')return;if(/^\s+$/.test(part)){frag.appendChild(document.createTextNode(part))}else{const s=document.createElement('span');s.className='ph';s.textContent=part;frag.appendChild(s)}});tn.parentNode.replaceChild(frag,tn)})});return div.innerHTML}
+function wrapWords(html){const div=document.createElement('div');div.innerHTML=html;div.querySelectorAll('p').forEach(p=>{const walker=document.createTreeWalker(p,NodeFilter.SHOW_TEXT,null);const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);nodes.forEach(tn=>{if(!tn.nodeValue)return;if(!/\S/.test(tn.nodeValue))return;const parts=tn.nodeValue.split(/(\s+)/);const frag=document.createDocumentFragment();parts.forEach(part=>{if(part==='')return;if(/^\s+$/.test(part)){frag.appendChild(document.createTextNode(part))}else{const s=document.createElement('span');s.className='ph';s.textContent=part;frag.appendChild(s)}});tn.parentNode.replaceChild(frag,tn)})});div.querySelectorAll('.ph').forEach(ph=>{const next=ph.nextSibling;if(next&&next.nodeType===1&&next.classList&&next.classList.contains('ph')){ph.parentNode.insertBefore(document.createTextNode(' '),next)}});return div.innerHTML}
 function load(n){const c=chapters[n];if(!c)return;cur=n;let html=colorize(c.html);html=wrapWords(html);document.getElementById('content').innerHTML=html;document.getElementById('ch-num').textContent=c.num;document.getElementById('ch-title').textContent=c.title;document.getElementById('ch-label').textContent=c.num+' · '+c.title;document.getElementById('cur').textContent=n;document.getElementById('prev').disabled=n<=1;document.getElementById('next').disabled=!chapters[n+1];document.querySelectorAll('.ch-item').forEach(b=>b.classList.toggle('active',+b.dataset.ch===n));if(autoTheme)setTheme(c.theme);document.getElementById('main').scrollTop=0;words=[...document.querySelectorAll('#content .ph')];applyMode();requestAnimationFrame(updateFocus)}
 function applyMode(){document.getElementById('content').className='reader-text mode-'+textMode}
-function updateFocus(){if(!focusMode||!words.length){words.forEach(p=>{p.classList.remove('focus');p.style.opacity='';p.style.transform='';p.style.setProperty('--sc','1')});return}const mid=window.innerHeight*0.42;const range=window.innerHeight*zoneW;words.forEach(p=>{const r=p.getBoundingClientRect();if(r.bottom<-80||r.top>h+80){p.style.opacity='0.40';p.style.transform='scale(0.98)';p.classList.remove('focus');return}const center=r.top+r.height*0.5;const dist=Math.abs(center-mid);const t=Math.min(1,dist/range);const ease=1-t*t*(3-2*t);const sc=Math.min(1+(focusStr-1)*ease,1.08);const op=0.40+0.60*ease;p.style.transform=`scale(${sc.toFixed(4)})`;p.style.opacity=op.toFixed(3);p.style.setProperty('--sc',sc.toFixed(4));p.classList.toggle('focus',ease>0.55)});if(wordFx){document.querySelectorAll('.fx-sand,.fx-shake,.fx-glow,.fx-blood,.fx-moon').forEach(el=>{const r=el.getBoundingClientRect();el.classList.toggle('on',Math.abs(r.top+r.height*0.5-mid)<window.innerHeight*0.16)})}}
+function updateFocus(){if(!focusMode||!words.length){words.forEach(p=>{p.classList.remove('focus');p.style.opacity=''});return}const mid=window.innerHeight*0.42;const range=window.innerHeight*zoneW;const isOneWord=textMode==='oneword';words.forEach(p=>{const r=p.getBoundingClientRect();if(r.bottom<-80||r.top>h+80){p.style.opacity=isOneWord?'0.12':'0.42';p.classList.remove('focus');return}const center=r.top+r.height*0.5;const dist=Math.abs(center-mid);const t=Math.min(1,dist/range);const ease=1-t*t*(3-2*t);if(isOneWord){const on=ease>0.72;p.style.opacity=on?'1':'0.14';p.classList.toggle('focus',on)}else{const op=0.38+0.62*ease;p.style.opacity=op.toFixed(3);p.classList.toggle('focus',ease>0.55)}});if(wordFx){document.querySelectorAll('.fx-sand,.fx-shake,.fx-glow,.fx-blood,.fx-moon').forEach(el=>{const r=el.getBoundingClientRect();el.classList.toggle('on',Math.abs(r.top+r.height*0.5-mid)<window.innerHeight*0.16)})}}
 const panel=document.getElementById('settings-panel'),backdrop=document.getElementById('settings-backdrop');
 function openSet(){panel.classList.add('open');backdrop.classList.add('open')}function closeSet(){panel.classList.remove('open');backdrop.classList.remove('open')}
 document.getElementById('btn-set').onclick=openSet;document.getElementById('close-set').onclick=closeSet;backdrop.onclick=closeSet;
@@ -331,9 +331,8 @@ document.getElementById('width').oninput=e=>document.documentElement.style.setPr
 document.getElementById('text-color').oninput=e=>document.documentElement.style.setProperty('--text',e.target.value);
 document.getElementById('text-bright').oninput=e=>document.documentElement.style.setProperty('--text-bright',e.target.value);
 document.getElementById('zone').oninput=e=>{zoneW=+e.target.value;updateFocus()};
-document.getElementById('focus-str').oninput=e=>{focusStr=+e.target.value;updateFocus()};
 document.querySelectorAll('.align-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.align-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.documentElement.style.setProperty('--align',b.dataset.a)});
-document.querySelectorAll('.mode-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');textMode=b.dataset.m;applyMode()});
+document.querySelectorAll('.mode-btn').forEach(b=>b.onclick=()=>{document.querySelectorAll('.mode-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');textMode=b.dataset.m;applyMode();updateFocus()});
 function updateCustomBg(){applyGradient(document.getElementById('bg-top').value,document.getElementById('bg-mid').value,document.getElementById('bg-bot').value);autoTheme=false;document.getElementById('auto-theme').checked=false;document.querySelectorAll('.theme-btn').forEach(x=>x.classList.remove('active'))}
 document.getElementById('bg-top').oninput=updateCustomBg;document.getElementById('bg-mid').oninput=updateCustomBg;document.getElementById('bg-bot').oninput=updateCustomBg;
 document.querySelectorAll('.theme-btn').forEach(b=>b.onclick=()=>{autoTheme=false;document.getElementById('auto-theme').checked=false;setTheme(b.dataset.theme)});
