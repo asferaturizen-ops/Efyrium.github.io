@@ -1,1 +1,5 @@
-TEMP
+
+const FONTS=[{name:'Lora',val:"'Lora',serif"},{name:'Merriweather',val:"'Merriweather',serif"},{name:'Playfair',val:"'Playfair Display',serif"},{name:'Cormorant',val:"'Cormorant Garamond',serif"},{name:'EB Garamond',val:"'EB Garamond',serif"},{name:'Literata',val:"'Literata',serif"},{name:'Source Serif',val:"'Source Serif 4',serif"},{name:'Crimson Pro',val:"'Crimson Pro',serif"},{name:'Spectral',val:"'Spectral',serif"},{name:'PT Serif',val:"'PT Serif',serif"},{name:'Noto Serif',val:"'Noto Serif',serif"},{name:'Roboto Slab',val:"'Roboto Slab',serif"},{name:'Cinzel',val:"'Cinzel',serif"},{name:'Inter',val:"'Inter',sans-serif"}];
+const PRESETS={flame:{top:'#030712',mid:'#051525',bot:'#0a1a2e'},cosmic:{top:'#020617',mid:'#0c1222',bot:'#111827'},winter:{top:'#0a1219',mid:'#0f1c28',bot:'#132433'},ember:{top:'#120a06',mid:'#1c1008',bot:'#27180c'},mist:{top:'#061214',mid:'#0a1a1c',bot:'#0e2224'},void:{top:'#020204',mid:'#050508',bot:'#0a0a0f'}};
+// NOTE: Full file restore pending - temporary stub to keep site from fully breaking
+alert('reader-app temporarily incomplete - restoring');
