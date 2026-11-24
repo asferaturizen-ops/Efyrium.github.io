@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Efy — Живые Книги | EvilFogYggdrasil</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#0a0a0f] text-gray-200 overflow-x-hidden">
+  <!-- Ambient background particles -->
+  <canvas id="bg-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0f]/80 backdrop-blur-xl border-b border-white/5">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-violet-600 via-purple-700 to-indigo-900 flex items-center justify-center shadow-lg shadow-violet-900/40">
+          <span class="font-cinzel font-bold text-lg text-white">E</span>
+        </div>
+        <div>
+          <h1 class="font-cinzel text-xl tracking-wider text-white">Efy</h1>
+          <p class="text-[10px] text-violet-400/70 tracking-[0.2em] uppercase">EvilFogYggdrasil</p>
+        </div>
+      </div>
+      
+      <div class="hidden md:flex items-center gap-8 text-sm">
+        <a href="#discover" class="hover:text-violet-300 transition">Каталог</a>
+        <a href="#featured" class="hover:text-violet-300 transition">Избранное</a>
+        <a href="#" class="hover:text-violet-300 transition">Создать книгу</a>
+        <a href="#" class="hover:text-violet-300 transition">Сообщество</a>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <button class="px-4 py-2 text-sm rounded-full border border-violet-500/40 hover:bg-violet-600/20 transition">
+          Войти через Google
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-violet-950/30 via-transparent to-[#0a0a0f] pointer-events-none"></div>
+    
+    <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+      <div class="inline-block mb-6 px-4 py-1.5 rounded-full border border-violet-500/30 bg-violet-950/40 text-violet-300 text-xs tracking-widest uppercase">
+        Первый в мире живой ридер
+      </div>
+      
+      <h2 class="font-cinzel text-5xl md:text-7xl font-bold leading-tight mb-6">
+        <span class="bg-gradient-to-r from-violet-200 via-purple-300 to-indigo-200 bg-clip-text text-transparent">
+          Книги, которые<br>дышат
+        </span>
+      </h2>
+      
+      <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
+        Читай. Ощущай. Погружайся.  
+        Авторы создают атмосферу — снег, огонь, тьму, свет и звук.  
+        Ты чувствуешь каждую главу всем телом.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="book.html" class="px-8 py-4 rounded-full bg-gradient-to-r from-violet-600 to-purple-700 hover:from-violet-500 hover:to-purple-600 text-white font-medium shadow-xl shadow-violet-900/40 transition transform hover:scale-105">
+          Открыть книгу
+        </a>
+        <a href="#discover" class="px-8 py-4 rounded-full border border-white/15 hover:bg-white/5 transition">
+          Исследовать каталог
+        </a>
+      </div>
+    </div>
+
+    <!-- Decorative floating orbs -->
+    <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-violet-600/10 rounded-full blur-3xl animate-pulse-slow"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-indigo-700/10 rounded-full blur-3xl animate-pulse-slow delay-1000"></div>
+  </header>
+
+  <!-- Featured Book -->
+  <section id="featured" class="relative py-24">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-end justify-between mb-12">
+        <div>
+          <h3 class="font-cinzel text-3xl text-white mb-2">Сейчас в центре внимания</h3>
+          <p class="text-gray-500">Книга, которая уже меняет представление о чтении</p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <!-- Book Cover -->
+        <div class="relative group">
+          <div class="absolute -inset-4 bg-gradient-to-r from-violet-600/30 via-purple-600/20 to-indigo-600/30 rounded-3xl blur-2xl opacity-60 group-hover:opacity-90 transition duration-700"></div>
+          <div class="relative aspect-[3/4] max-w-sm mx-auto rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#1a1030] via-[#0f0a1f] to-[#05030a]"></div>
+            <!-- Decorative elements on cover -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
+              <div class="w-20 h-20 mb-6 rounded-full bg-gradient-to-br from-violet-400/30 to-indigo-600/40 flex items-center justify-center border border-violet-400/20">
+                <span class="font-cinzel text-3xl text-violet-200">✦</span>
+              </div>
+              <h4 class="font-cinzel text-2xl text-white mb-2 leading-tight">Radiant Spirit<br>Efy Supreme</h4>
+              <p class="text-violet-300/80 text-sm tracking-widest uppercase mb-6">Глава I · Пробуждение</p>
+              <div class="w-16 h-px bg-gradient-to-r from-transparent via-violet-400/60 to-transparent mb-6"></div>
+              <p class="text-gray-400 text-sm italic">«Эфир заполнял поднебесье...»</p>
+            </div>
+            <!-- Soft aura -->
+            <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-violet-900/40 to-transparent"></div>
+          </div>
+        </div>
+
+        <!-- Info -->
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="px-3 py-1 rounded-full bg-violet-900/40 border border-violet-500/30 text-violet-300 text-xs">Фэнтези</span>
+            <span class="px-3 py-1 rounded-full bg-indigo-900/40 border border-indigo-500/30 text-indigo-300 text-xs">Космос</span>
+            <span class="px-3 py-1 rounded-full bg-purple-900/40 border border-purple-500/30 text-purple-300 text-xs">Атмосфера</span>
+          </div>
+          
+          <h3 class="font-cinzel text-4xl text-white mb-4">Radiant Spirit Efy Supreme</h3>
+          <p class="text-gray-400 leading-relaxed mb-6">
+            Мир, где десять лун разного цвета смотрят на тебя, а эфир заполняет всё пространство. 
+            Книга, в которой атмосфера не просто описана — она <span class="text-violet-300">жива</span>. 
+            Снег, свет, тьма и звук меняются вместе с историей.
+          </p>
+
+          <div class="flex items-center gap-6 mb-8 text-sm text-gray-500">
+            <div class="flex items-center gap-2">
+              <span class="text-violet-400">★</span>
+              <span>4.9</span>
+            </div>
+            <div>12 глав</div>
+            <div>Обновлено недавно</div>
+          </div>
+
+          <div class="flex gap-4">
+            <a href="book.html" class="px-7 py-3.5 rounded-full bg-gradient-to-r from-violet-600 to-purple-700 hover:from-violet-500 hover:to-purple-600 text-white font-medium shadow-lg shadow-violet-900/30 transition">
+              Начать читать
+            </a>
+            <button class="px-7 py-3.5 rounded-full border border-white/15 hover:bg-white/5 transition flex items-center gap-2">
+              <span>♡</span> В избранное
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Discover Section -->
+  <section id="discover" class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <div>
+          <h3 class="font-cinzel text-3xl text-white mb-2">Открой новые миры</h3>
+          <p class="text-gray-500">Новые главы · Популярное · По жанрам</p>
+        </div>
+        
+        <div class="flex gap-3">
+          <input type="text" placeholder="Поиск по названию или тегам..." 
+                 class="px-5 py-2.5 rounded-full bg-white/5 border border-white/10 focus:border-violet-500/50 focus:outline-none text-sm w-64 placeholder:text-gray-600">
+          <button class="px-5 py-2.5 rounded-full bg-violet-600/20 border border-violet-500/30 hover:bg-violet-600/30 text-sm transition">
+            Фильтры
+          </button>
+        </div>
+      </div>
+
+      <!-- Genre pills -->
+      <div class="flex flex-wrap gap-2 mb-10">
+        <button class="px-4 py-1.5 rounded-full bg-violet-600/30 border border-violet-500/40 text-violet-200 text-sm">Все</button>
+        <button class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-violet-500/30 text-sm transition">Фэнтези</button>
+        <button class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-violet-500/30 text-sm transition">Тёмное фэнтези</button>
+        <button class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-violet-500/30 text-sm transition">Аниме</button>
+        <button class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-violet-500/30 text-sm transition">Космос</button>
+        <button class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-violet-500/30 text-sm transition">Романтика</button>
+        <button class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-violet-500/30 text-sm transition">18+</button>
+        <button class="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 hover:border-violet-500/30 text-sm transition">Мистика</button>
+      </div>
+
+      <!-- Book Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Book Card 1 - Featured -->
+        <a href="book.html" class="group">
+          <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-3 border border-white/5 group-hover:border-violet-500/40 transition">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#1a1030] via-[#120c22] to-[#08050f]"></div>
+            <div class="absolute inset-0 flex flex-col items-center justify-center p-4 text-center">
+              <span class="text-3xl mb-3 text-violet-300/80">✦</span>
+              <p class="font-cinzel text-sm text-white leading-tight">Radiant Spirit<br>Efy Supreme</p>
+            </div>
+            <div class="absolute inset-0 bg-violet-600/0 group-hover:bg-violet-600/10 transition"></div>
+          </div>
+          <h4 class="font-medium text-sm text-white group-hover:text-violet-300 transition truncate">Radiant Spirit Efy Supreme</h4>
+          <p class="text-xs text-gray-500 mt-1">Фэнтези · 12 глав</p>
+        </a>
+
+        <!-- Placeholder books -->
+        <div class="group opacity-60">
+          <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-3 border border-white/5">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#1a1520] to-[#0a080f]"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-gray-600 text-sm">Скоро</span>
+            </div>
+          </div>
+          <h4 class="font-medium text-sm text-gray-400 truncate">Тёмные Корни Иггдрасиля</h4>
+          <p class="text-xs text-gray-600 mt-1">Тёмное фэнтези</p>
+        </div>
+
+        <div class="group opacity-60">
+          <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-3 border border-white/5">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#151a22] to-[#080a0f]"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-gray-600 text-sm">Скоро</span>
+            </div>
+          </div>
+          <h4 class="font-medium text-sm text-gray-400 truncate">Пепел и Лунный Свет</h4>
+          <p class="text-xs text-gray-600 mt-1">Мистика · Аниме</p>
+        </div>
+
+        <div class="group opacity-60">
+          <div class="relative aspect-[3/4] rounded-xl overflow-hidden mb-3 border border-white/5">
+            <div class="absolute inset-0 bg-gradient-to-br from-[#1a1218] to-[#0c070a]"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-gray-600 text-sm">Скоро</span>
+            </div>
+          </div>
+          <h4 class="font-medium text-sm text-gray-400 truncate">Кровавая Сакура</h4>
+          <p class="text-xs text-gray-600 mt-1">Тёмное · 18+</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-24 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6">
+      <h3 class="font-cinzel text-3xl text-white text-center mb-16">Почему Efy — это другое</h3>
+      
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-violet-500/20 transition">
+          <div class="w-12 h-12 rounded-xl bg-violet-600/20 flex items-center justify-center mb-5 text-violet-300 text-xl">✦</div>
+          <h4 class="font-medium text-lg text-white mb-3">Живая атмосфера</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Авторы накладывают эффекты на главы и абзацы: снег, огонь, дым, тряску текста, смену градиентов и звук. Книга дышит вместе с сюжетом.
+          </p>
+        </div>
+        
+        <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-violet-500/20 transition">
+          <div class="w-12 h-12 rounded-xl bg-indigo-600/20 flex items-center justify-center mb-5 text-indigo-300 text-xl">◎</div>
+          <h4 class="font-medium text-lg text-white mb-3">Полная свобода чтения</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Настраивай шрифт, размер, цвета, освещение, способ перелистывания. Полноэкранный режим без единого отвлечения.
+          </p>
+        </div>
+        
+        <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-violet-500/20 transition">
+          <div class="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center mb-5 text-purple-300 text-xl">✧</div>
+          <h4 class="font-medium text-lg text-white mb-3">0 цензуры. Полная свобода</h4>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Пиши и читай то, что хочешь. Любые жанры, включая 18+. Авторы полностью контролируют атмосферу своей книги.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-12 border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-violet-600 to-indigo-800 flex items-center justify-center">
+          <span class="font-cinzel text-sm text-white">E</span>
+        </div>
+        <span class="font-cinzel text-white">Efy</span>
+        <span class="text-gray-600 text-sm">· EvilFogYggdrasil</span>
+      </div>
+      <p class="text-gray-600 text-sm">Создано для тех, кто хочет чувствовать книги</p>
+    </div>
+  </footer>
+
+  <script src="js/bg-particles.js"></script>
+</body>
+</html>
