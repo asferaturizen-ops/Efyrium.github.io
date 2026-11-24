@@ -34,9 +34,16 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--text);background:linear-
 .ch-item.active{border-color:rgba(56,189,248,.55)!important;background:rgba(14,165,233,.28)!important}.ch-item.active span{color:#38bdf8!important}.ch-item.active p{color:#fff!important}.ch-item:not(.active) span{color:#64748b}.ch-item:not(.active) p{color:#94a3b8}
 input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;border:none;border-radius:4px;background:transparent;cursor:pointer;padding:0}
 .color-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}.color-row label{flex:1;font-size:11px;color:#94a3b8}
-.section{border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:8px;margin-bottom:2px}.section-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:6px 0;user-select:none}.section-head h3{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#64748b;margin:0}.section-body{display:none;padding-top:4px}.section.open .section-body{display:block}.section.open .chev{transform:rotate(180deg)}.chev{transition:transform .2s;color:#64748b;font-size:10px}
-.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}.mode-btn{padding:7px 3px;border-radius:7px;border:1px solid rgba(255,255,255,.1);font-size:10px;text-align:center}
-.fx-row{display:flex;align-items:center;gap:8px;padding:4px 0}.fx-row label{flex:1;font-size:12px}
+/* Larger touch targets for mobile — more vertical space between section headers */
+.section{border-bottom:1px solid rgba(255,255,255,.07);padding-bottom:4px;margin-bottom:0}
+.section-head{display:flex;align-items:center;justify-content:space-between;cursor:pointer;padding:14px 4px;user-select:none;min-height:48px;-webkit-tap-highlight-color:transparent}
+.section-head h3{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#94a3b8;margin:0;font-weight:500}
+.section-body{display:none;padding:4px 2px 12px}
+.section.open .section-body{display:block}
+.section.open .chev{transform:rotate(180deg)}
+.chev{transition:transform .2s;color:#64748b;font-size:12px;padding:4px}
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.mode-btn{padding:10px 4px;border-radius:8px;border:1px solid rgba(255,255,255,.1);font-size:11px;text-align:center;min-height:40px}
+.fx-row{display:flex;align-items:center;gap:8px;padding:6px 0}.fx-row label{flex:1;font-size:13px}
 </style>
 </head>
 <body>
@@ -60,11 +67,23 @@ input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;
 <button class="ch-item w-full text-left px-3 py-2.5 rounded-xl border border-transparent hover:bg-white/5" data-ch="2"><span class="text-[10px] text-slate-500">Глава II</span><p class="text-sm text-slate-300 mt-0.5">Первый Рассвет</p></button>
 </div></div></aside>
 <aside id="settings-panel" class="fixed top-0 right-0 h-full w-[19.5rem] max-w-[90vw] bg-[#071018]/97 backdrop-blur-2xl border-l border-sky-500/15 translate-x-full overflow-y-auto overscroll-contain">
-<div class="p-3.5 pb-14">
+<div class="p-3.5 pb-16">
 <div class="flex items-center justify-between mb-1"><h2 class="font-cinzel text-base text-white">Настройки</h2><button id="close-set" class="text-slate-400 hover:text-white p-1">✕</button></div>
-<p class="text-[10px] text-slate-500 mb-2">Свайп / тап снаружи</p>
+<p class="text-[10px] text-slate-500 mb-3">Свайп / тап снаружи</p>
 
+<!-- Быстрый фокус -->
 <div class="section open">
+<div class="section-head"><h3>Быстрый фокус</h3><span class="chev">▼</span></div>
+<div class="section-body space-y-3">
+<p class="text-[10px] text-slate-500 leading-relaxed">Один тап — максимальный размер, жирность, приближение и выравнивание по центру. Удобно для телефона.</p>
+<label class="flex items-center justify-between gap-3 py-2 px-2 rounded-xl bg-sky-950/40 border border-sky-500/25 cursor-pointer active:bg-sky-900/50">
+<span class="text-sm text-sky-100 font-medium leading-snug">Максимальный фокус<br><span class="text-[10px] text-slate-400 font-normal">Жирный · крупный · центр · приближение</span></span>
+<input type="checkbox" id="max-focus" class="w-5 h-5 accent-sky-400 shrink-0">
+</label>
+<button type="button" id="btn-reset-text" class="w-full py-2.5 rounded-xl border border-white/10 text-xs text-slate-300 active:bg-white/5">Сбросить текст к стандартным</button>
+</div></div>
+
+<div class="section">
 <div class="section-head"><h3>Темы атмосферы</h3><span class="chev">▼</span></div>
 <div class="section-body">
 <p class="text-[10px] text-slate-500 mb-2">Один клик — готовый мир: фон, эффекты, свет. Текст не меняется. Выбор сохраняется в браузере.</p>
@@ -73,15 +92,15 @@ input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;
 
 <div class="section"><div class="section-head"><h3>Текст</h3><span class="chev">▼</span></div>
 <div class="section-body space-y-2">
-<div><label class="text-[10px] text-slate-500 mb-0.5 block">Размер</label><div class="flex items-center gap-1.5"><button id="fs-down" class="w-6 h-6 rounded bg-white/5 text-[10px]">A−</button><input type="range" id="fs" min="15" max="24" value="18" class="flex-1"><button id="fs-up" class="w-6 h-6 rounded bg-white/5 text-[10px]">A+</button></div></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Размер</label><div class="flex items-center gap-1.5"><button id="fs-down" class="w-7 h-7 rounded bg-white/5 text-[11px]">A−</button><input type="range" id="fs" min="15" max="24" value="18" class="flex-1"><button id="fs-up" class="w-7 h-7 rounded bg-white/5 text-[11px]">A+</button></div></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Жирность</label><input type="range" id="weight" min="300" max="700" step="100" value="400" class="w-full"></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Межстрочный</label><input type="range" id="lh" min="1.4" max="2.3" step="0.05" value="1.9" class="w-full"></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Ширина колонки</label><input type="range" id="width" min="16" max="36" value="30" class="w-full"></div>
-<div><label class="text-[10px] text-slate-500 mb-0.5 block">Выравнивание</label><div class="flex gap-1"><button class="align-btn active flex-1 py-1 rounded-lg border border-sky-500/40 text-[10px]" data-a="left">Слева</button><button class="align-btn flex-1 py-1 rounded-lg border border-white/10 text-[10px]" data-a="center">Центр</button><button class="align-btn flex-1 py-1 rounded-lg border border-white/10 text-[10px]" data-a="justify">Ширина</button></div></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Выравнивание</label><div class="flex gap-1.5"><button class="align-btn active flex-1 py-2 rounded-lg border border-sky-500/40 text-[11px]" data-a="left">Слева</button><button class="align-btn flex-1 py-2 rounded-lg border border-white/10 text-[11px]" data-a="center">Центр</button><button class="align-btn flex-1 py-2 rounded-lg border border-white/10 text-[11px]" data-a="justify">Ширина</button></div></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Цвет / яркость</label><div class="flex items-center gap-2"><input type="color" id="text-color" value="#e0f2fe"><input type="range" id="text-bright" min="0.55" max="1.3" step="0.05" value="1" class="flex-1"></div></div>
-<label class="flex items-center justify-between text-xs cursor-pointer"><span>Приближение от центра</span><input type="checkbox" id="prox-on" checked class="w-3.5 h-3.5 accent-sky-400"></label>
+<label class="flex items-center justify-between text-xs cursor-pointer py-1"><span>Приближение от центра</span><input type="checkbox" id="prox-on" checked class="w-4 h-4 accent-sky-400"></label>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Сила приближения</label><input type="range" id="text-prox" min="0" max="100" value="35" class="w-full"></div>
-<div><label class="text-[10px] text-slate-500 mb-0.5 block">Шрифт</label><div class="space-y-0.5 max-h-20 overflow-y-auto" id="font-list"></div></div>
+<div><label class="text-[10px] text-slate-500 mb-0.5 block">Шрифт</label><div class="space-y-0.5 max-h-24 overflow-y-auto" id="font-list"></div></div>
 </div></div>
 <div class="section"><div class="section-head"><h3>Режимы чтения</h3><span class="chev">▼</span></div>
 <div class="section-body space-y-2">
@@ -90,22 +109,22 @@ input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;
 </div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Высота светлой зоны</label><input type="range" id="band" min="10" max="55" value="28" class="w-full"></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Затемнение краёв</label><input type="range" id="edge" min="0" max="70" value="28" class="w-full"></div>
-<label class="flex items-center justify-between text-xs cursor-pointer"><span>Центральная подсветка</span><input type="checkbox" id="spot-on" checked class="w-3.5 h-3.5 accent-sky-400"></label>
+<label class="flex items-center justify-between text-xs cursor-pointer py-1"><span>Центральная подсветка</span><input type="checkbox" id="spot-on" checked class="w-4 h-4 accent-sky-400"></label>
 </div></div>
 <div class="section"><div class="section-head"><h3>Атмосфера фона</h3><span class="chev">▼</span></div>
 <div class="section-body space-y-2">
 <div class="color-row"><label>Верх</label><input type="color" id="bg-top" value="#030712"></div>
 <div class="color-row"><label>Середина</label><input type="color" id="bg-mid" value="#051525"></div>
 <div class="color-row"><label>Низ</label><input type="color" id="bg-bot" value="#0a1a2e"></div>
-<div class="grid grid-cols-3 gap-1">
-<button class="theme-btn active px-1 py-1 rounded-lg border border-sky-500/40 text-[9px]" data-theme="flame">Пламя</button>
-<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="cosmic">Космос</button>
-<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="winter">Лёд</button>
-<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="ember">Рассвет</button>
-<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="mist">Туман</button>
-<button class="theme-btn px-1 py-1 rounded-lg border border-white/10 text-[9px]" data-theme="void">Пустота</button>
+<div class="grid grid-cols-3 gap-1.5">
+<button class="theme-btn active px-1 py-2 rounded-lg border border-sky-500/40 text-[10px]" data-theme="flame">Пламя</button>
+<button class="theme-btn px-1 py-2 rounded-lg border border-white/10 text-[10px]" data-theme="cosmic">Космос</button>
+<button class="theme-btn px-1 py-2 rounded-lg border border-white/10 text-[10px]" data-theme="winter">Лёд</button>
+<button class="theme-btn px-1 py-2 rounded-lg border border-white/10 text-[10px]" data-theme="ember">Рассвет</button>
+<button class="theme-btn px-1 py-2 rounded-lg border border-white/10 text-[10px]" data-theme="mist">Туман</button>
+<button class="theme-btn px-1 py-2 rounded-lg border border-white/10 text-[10px]" data-theme="void">Пустота</button>
 </div>
-<label class="flex items-center justify-between text-xs cursor-pointer"><span>Авто по главам</span><input type="checkbox" id="auto-theme" checked class="w-3.5 h-3.5 accent-sky-400"></label>
+<label class="flex items-center justify-between text-xs cursor-pointer py-1"><span>Авто по главам</span><input type="checkbox" id="auto-theme" checked class="w-4 h-4 accent-sky-400"></label>
 </div></div>
 <div class="section"><div class="section-head"><h3>Эффекты над текстом (26)</h3><span class="chev">▼</span></div>
 <div class="section-body space-y-1 max-h-56 overflow-y-auto" id="fx-list"></div></div>
@@ -113,15 +132,15 @@ input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;
 <div class="section">
 <div class="section-head"><h3>Сила атмосферы</h3><span class="chev">▼</span></div>
 <div class="section-body space-y-2">
-<p class="text-[10px] text-slate-500 mb-1">Глобально усиливает или ослабляет все эффекты текущей темы (дождь, листья, искры и т.д.).</p>
+<p class="text-[10px] text-slate-500 mb-1">Глобально усиливает или ослабляет все эффекты текущей темы.</p>
 <div>
 <label class="text-[10px] text-slate-500 mb-0.5 block">Общая сила</label>
 <input type="range" id="atm-strength" min="0" max="200" value="100" class="w-full">
 <div class="flex justify-between text-[10px] text-slate-500 mt-0.5"><span>Тихо</span><span id="atm-strength-val">100%</span><span>Мощно</span></div>
 </div>
-<label class="flex items-center justify-between text-xs cursor-pointer mt-1">
+<label class="flex items-center justify-between text-xs cursor-pointer py-1">
 <span>Базовые частицы</span>
-<input type="checkbox" id="particles" checked class="w-3.5 h-3.5 accent-sky-400">
+<input type="checkbox" id="particles" checked class="w-4 h-4 accent-sky-400">
 </label>
 <input type="range" id="intensity" min="0" max="35" value="12" class="w-full hidden">
 <input type="color" id="part-color" value="#38bdf8" class="hidden">
@@ -141,20 +160,90 @@ input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;
 <script src="reader-themes.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/asferaturizen-ops/Efyrium.github.io@35d555b7f44b32f1fe03ccdd4cbcd950b5cd3b79/reader-app.js"></script>
 <script>
-// Bind Atmosphere Strength after app loads
-window.atmStrength = 1;
-setTimeout(function(){
-  var el = document.getElementById('atm-strength');
-  var val = document.getElementById('atm-strength-val');
-  if(el){
-    el.oninput = function(e){
-      var mult = +e.target.value / 100;
-      window.atmStrength = mult;
-      if(val) val.textContent = Math.round(mult*100) + '%';
-      if(typeof applyAtmStrength === 'function') applyAtmStrength(mult);
-    };
+(function(){
+  // Atmosphere strength binding
+  window.atmStrength = 1;
+  setTimeout(function(){
+    var el = document.getElementById('atm-strength');
+    var val = document.getElementById('atm-strength-val');
+    if(el){
+      el.oninput = function(e){
+        var mult = +e.target.value / 100;
+        window.atmStrength = mult;
+        if(val) val.textContent = Math.round(mult*100) + '%';
+        if(typeof applyAtmStrength === 'function') applyAtmStrength(mult);
+      };
+    }
+  }, 400);
+
+  // Max Focus mode
+  function applyMaxFocus(){
+    var fs = document.getElementById('fs');
+    var weight = document.getElementById('weight');
+    var proxOn = document.getElementById('prox-on');
+    var textProx = document.getElementById('text-prox');
+    var lh = document.getElementById('lh');
+
+    if(fs){ fs.value = 24; fs.dispatchEvent(new Event('input')); }
+    if(weight){ weight.value = 700; weight.dispatchEvent(new Event('input')); }
+    if(proxOn){ proxOn.checked = true; proxOn.dispatchEvent(new Event('change')); }
+    if(textProx){ textProx.value = 100; textProx.dispatchEvent(new Event('input')); }
+    if(lh){ lh.value = 2.1; lh.dispatchEvent(new Event('input')); }
+
+    // Center alignment
+    document.querySelectorAll('.align-btn').forEach(function(b){
+      b.classList.toggle('active', b.dataset.a === 'center');
+    });
+    document.documentElement.style.setProperty('--align', 'center');
+
+    try{ localStorage.setItem('efy_max_focus', '1'); }catch(e){}
   }
-}, 300);
+
+  function resetTextDefaults(){
+    var fs = document.getElementById('fs');
+    var weight = document.getElementById('weight');
+    var proxOn = document.getElementById('prox-on');
+    var textProx = document.getElementById('text-prox');
+    var lh = document.getElementById('lh');
+    var width = document.getElementById('width');
+
+    if(fs){ fs.value = 18; fs.dispatchEvent(new Event('input')); }
+    if(weight){ weight.value = 400; weight.dispatchEvent(new Event('input')); }
+    if(proxOn){ proxOn.checked = true; proxOn.dispatchEvent(new Event('change')); }
+    if(textProx){ textProx.value = 35; textProx.dispatchEvent(new Event('input')); }
+    if(lh){ lh.value = 1.9; lh.dispatchEvent(new Event('input')); }
+    if(width){ width.value = 30; width.dispatchEvent(new Event('input')); }
+
+    document.querySelectorAll('.align-btn').forEach(function(b){
+      b.classList.toggle('active', b.dataset.a === 'left');
+    });
+    document.documentElement.style.setProperty('--align', 'left');
+
+    var maxFocus = document.getElementById('max-focus');
+    if(maxFocus) maxFocus.checked = false;
+    try{ localStorage.removeItem('efy_max_focus'); }catch(e){}
+  }
+
+  setTimeout(function(){
+    var maxFocus = document.getElementById('max-focus');
+    var btnReset = document.getElementById('btn-reset-text');
+    if(maxFocus){
+      maxFocus.onchange = function(){
+        if(this.checked) applyMaxFocus();
+        else resetTextDefaults();
+      };
+      try{
+        if(localStorage.getItem('efy_max_focus') === '1'){
+          maxFocus.checked = true;
+          applyMaxFocus();
+        }
+      }catch(e){}
+    }
+    if(btnReset){
+      btnReset.onclick = resetTextDefaults;
+    }
+  }, 500);
+})();
 </script>
 </body>
 </html>
