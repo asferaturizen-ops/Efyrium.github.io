@@ -91,4 +91,5 @@ document.getElementById('prev').onclick=()=>{if(cur>1)load(cur-1)};document.getE
 document.querySelectorAll('.ch-item').forEach(b=>b.onclick=()=>{load(+b.dataset.ch);document.getElementById('chapters-panel').classList.remove('open')});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSet();document.getElementById('chapters-panel').classList.remove('open');if(document.fullscreenElement)document.exitFullscreen()}if((e.key==='f'||e.key==='а')&&!e.ctrlKey)document.getElementById('btn-fs').click();if(e.key==='ArrowRight'&&chapters[cur+1])load(cur+1);if(e.key==='ArrowLeft'&&cur>1)load(cur-1)});
 resize();setTheme('flame');applyMode('still');load(1);loop();requestDepth();
+if(typeof buildThemesUI==='function'){buildThemesUI();restoreSavedTheme();}
 addEventListener('resize',resize);
