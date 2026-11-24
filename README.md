@@ -1,2 +1,9 @@
-# Efyrium.github.io
-A new generation of literature — together with Efy!
+# Efyrium
+
+**Живые книги. Новое поколение литературы.**
+
+Сайт в активной разработке. Здесь авторы создают не просто текст, а атмосферу: эффекты, свет, частицы, звук и ощущения.
+
+Открыть сайт: https://asferaturizen-ops.github.io/Efyrium.github.io/
+
+Сделано для Radiant Spirit Efy Supreme и всех будущих книг.
