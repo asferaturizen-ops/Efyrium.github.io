@@ -30,7 +30,7 @@ body{font-family:Inter,system-ui,sans-serif;color:var(--text);background:linear-
 .mode-breathe .reader-text{animation:blockBreathe 4s ease-in-out infinite}@keyframes blockBreathe{0%,100%{opacity:1}50%{opacity:.88}}
 .mode-pulse .spotlight{animation:bandPulse 3s ease-in-out infinite}@keyframes bandPulse{0%,100%{opacity:1}50%{opacity:.85}}
 .ch-nav{display:flex;align-items:center;justify-content:space-between;padding:1.4rem 0 0;margin-top:1.8rem;border-top:1px solid rgba(255,255,255,.06);position:relative;z-index:12}
-.font-option.active,.theme-btn.active,.align-btn.active,.mode-btn.active{background:rgba(14,165,233,.22)!important;border-color:rgba(56,189,248,.5)!important}
+.font-option.active,.theme-btn.active,.align-btn.active,.mode-btn.active,.atm-theme-btn.active{background:rgba(14,165,233,.22)!important;border-color:rgba(56,189,248,.5)!important}
 .ch-item.active{border-color:rgba(56,189,248,.55)!important;background:rgba(14,165,233,.28)!important}.ch-item.active span{color:#38bdf8!important}.ch-item.active p{color:#fff!important}.ch-item:not(.active) span{color:#64748b}.ch-item:not(.active) p{color:#94a3b8}
 input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;border:none;border-radius:4px;background:transparent;cursor:pointer;padding:0}
 .color-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}.color-row label{flex:1;font-size:11px;color:#94a3b8}
@@ -63,7 +63,15 @@ input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;
 <div class="p-3.5 pb-14">
 <div class="flex items-center justify-between mb-1"><h2 class="font-cinzel text-base text-white">Настройки</h2><button id="close-set" class="text-slate-400 hover:text-white p-1">✕</button></div>
 <p class="text-[10px] text-slate-500 mb-2">Свайп / тап снаружи</p>
-<div class="section open"><div class="section-head"><h3>Текст</h3><span class="chev">▼</span></div>
+
+<div class="section open">
+<div class="section-head"><h3>Темы атмосферы</h3><span class="chev">▼</span></div>
+<div class="section-body">
+<p class="text-[10px] text-slate-500 mb-2">Один клик — готовый мир: фон, эффекты, свет. Текст не меняется. Выбор сохраняется в браузере.</p>
+<div id="themes-list"></div>
+</div></div>
+
+<div class="section"><div class="section-head"><h3>Текст</h3><span class="chev">▼</span></div>
 <div class="section-body space-y-2">
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Размер</label><div class="flex items-center gap-1.5"><button id="fs-down" class="w-6 h-6 rounded bg-white/5 text-[10px]">A−</button><input type="range" id="fs" min="15" max="24" value="18" class="flex-1"><button id="fs-up" class="w-6 h-6 rounded bg-white/5 text-[10px]">A+</button></div></div>
 <div><label class="text-[10px] text-slate-500 mb-0.5 block">Жирность</label><input type="range" id="weight" min="300" max="700" step="100" value="400" class="w-full"></div>
@@ -119,6 +127,7 @@ input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;
 <button id="next" class="px-3 py-1.5 rounded-full bg-sky-600/25 border border-sky-400/35 text-sky-200 text-xs">Далее →</button></div>
 </div></main>
 <script src="reader-effects.js"></script>
+<script src="reader-themes.js"></script>
 <script src="reader-app.js"></script>
 </body>
 </html>
