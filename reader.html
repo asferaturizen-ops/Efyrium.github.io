@@ -109,13 +109,24 @@ input[type=range]{accent-color:#38bdf8}input[type=color]{width:28px;height:22px;
 </div></div>
 <div class="section"><div class="section-head"><h3>Эффекты над текстом (26)</h3><span class="chev">▼</span></div>
 <div class="section-body space-y-1 max-h-56 overflow-y-auto" id="fx-list"></div></div>
-<div class="section"><div class="section-head"><h3>Частицы фона</h3><span class="chev">▼</span></div>
+
+<div class="section">
+<div class="section-head"><h3>Сила атмосферы</h3><span class="chev">▼</span></div>
 <div class="section-body space-y-2">
-<label class="flex items-center justify-between text-xs cursor-pointer"><span>Включены</span><input type="checkbox" id="particles" checked class="w-3.5 h-3.5 accent-sky-400"></label>
-<div><label class="text-[10px] text-slate-500 mb-0.5 block">Интенсивность</label><input type="range" id="intensity" min="0" max="35" value="12" class="w-full"></div>
-<div class="flex items-center gap-2"><input type="color" id="part-color" value="#38bdf8">
-<div class="flex gap-1"><button class="w-4 h-4 rounded-full bg-sky-400 border border-white/20" data-c="#38bdf8"></button><button class="w-4 h-4 rounded-full bg-cyan-300 border border-white/20" data-c="#67e8f9"></button><button class="w-4 h-4 rounded-full bg-amber-400 border border-white/20" data-c="#fbbf24"></button></div></div>
+<p class="text-[10px] text-slate-500 mb-1">Глобально усиливает или ослабляет все эффекты текущей темы (дождь, листья, искры и т.д.).</p>
+<div>
+<label class="text-[10px] text-slate-500 mb-0.5 block">Общая сила</label>
+<input type="range" id="atm-strength" min="0" max="200" value="100" class="w-full">
+<div class="flex justify-between text-[10px] text-slate-500 mt-0.5"><span>Тихо</span><span id="atm-strength-val">100%</span><span>Мощно</span></div>
+</div>
+<label class="flex items-center justify-between text-xs cursor-pointer mt-1">
+<span>Базовые частицы</span>
+<input type="checkbox" id="particles" checked class="w-3.5 h-3.5 accent-sky-400">
+</label>
+<input type="range" id="intensity" min="0" max="35" value="12" class="w-full hidden">
+<input type="color" id="part-color" value="#38bdf8" class="hidden">
 </div></div>
+
 </div></aside>
 <main id="main"><div class="reader-wrap" id="reader-root">
 <div class="text-center mb-7"><p class="text-sky-400/70 text-xs tracking-[0.16em] uppercase mb-1.5" id="ch-num">Глава I</p>
