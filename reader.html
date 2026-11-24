@@ -3,166 +3,300 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Radiant Spirit Efy Supreme — Глава I | Efy</title>
+  <title>Radiant Spirit Efy Supreme — Чтение | Efyrium</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/reader.css">
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Literata:ital,opsz,wght@0,7..72,300;0,7..72,400;0,7..72,500;1,7..72,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050810;
+      --text: #e2e8f0;
+      --font-size: 19px;
+      --line-height: 1.75;
+      --font: 'Cormorant Garamond', serif;
+    }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); transition: background 0.5s; }
+    .font-cinzel { font-family: 'Cinzel', serif; }
+    .reader-text {
+      font-family: var(--font);
+      font-size: var(--font-size);
+      line-height: var(--line-height);
+      color: var(--text);
+    }
+    .reader-text p { margin-bottom: 1.5em; text-align: justify; }
+    .reader-text p:first-of-type::first-letter {
+      font-family: 'Cinzel', serif;
+      font-size: 3em;
+      float: left;
+      line-height: 0.85;
+      padding-right: 0.1em;
+      color: #7dd3fc;
+      font-weight: 600;
+    }
+    #settings-panel, #chapters-panel { transition: transform 0.3s ease; }
+    #settings-panel.open { transform: translateX(0); }
+    #chapters-panel.open { transform: translateX(0); }
+    body.fullscreen #top-bar { opacity: 0; pointer-events: none; transform: translateY(-100%); }
+    body.fullscreen.show-ui #top-bar { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    .theme-btn.active, .font-option.active { background: rgba(14, 165, 233, 0.2) !important; border-color: rgba(56, 189, 248, 0.5) !important; }
+  </style>
 </head>
-<body class="bg-[#07060b] text-gray-200 overflow-hidden theme-cosmic">
-  
-  <canvas id="effect-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+<body class="overflow-hidden">
+  <canvas id="fx" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
-  <header id="top-bar" class="fixed top-0 left-0 right-0 z-40 bg-[#07060b]/90 backdrop-blur-xl border-b border-white/5 transition-all duration-300">
-    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <a href="book.html" class="text-gray-400 hover:text-white transition text-sm flex items-center gap-1.5">
-          <span>←</span> <span class="hidden sm:inline">К книге</span>
-        </a>
+  <header id="top-bar" class="fixed top-0 inset-x-0 z-40 bg-[#050810]/90 backdrop-blur-xl border-b border-white/5 transition-all duration-300">
+    <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="book.html" class="text-gray-400 hover:text-sky-300 text-sm shrink-0">← Назад</a>
         <div class="h-4 w-px bg-white/10 hidden sm:block"></div>
         <div class="min-w-0">
-          <h1 class="font-cinzel text-sm text-white truncate">Radiant Spirit Efy Supreme</h1>
-          <p class="text-[11px] text-violet-400/80 truncate" id="chapter-label">Глава I · Пробуждение Эфира</p>
+          <div class="font-cinzel text-sm text-white truncate">Radiant Spirit Efy Supreme</div>
+          <div class="text-[11px] text-sky-400/80 truncate" id="ch-label">Глава I · Пробуждение Эфира</div>
         </div>
       </div>
       <div class="flex items-center gap-1">
-        <button id="btn-chapters" class="p-2 rounded-lg hover:bg-white/5 transition text-gray-400 hover:text-white" title="Главы">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h7"/></svg>
-        </button>
-        <button id="btn-settings" class="p-2 rounded-lg hover:bg-white/5 transition text-gray-400 hover:text-white" title="Настройки">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
-        </button>
-        <button id="btn-fullscreen" class="p-2 rounded-lg hover:bg-white/5 transition text-gray-400 hover:text-white" title="Полный экран (F)">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/></svg>
-        </button>
+        <button id="btn-ch" class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white" title="Главы">☰</button>
+        <button id="btn-set" class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white" title="Настройки">⚙</button>
+        <button id="btn-fs" class="p-2 rounded-lg hover:bg-white/5 text-gray-400 hover:text-white" title="Полный экран (F)">⛶</button>
       </div>
     </div>
   </header>
 
-  <aside id="chapters-panel" class="fixed top-0 left-0 h-full w-72 bg-[#0c0b12]/95 backdrop-blur-2xl border-r border-white/10 z-50 transform -translate-x-full transition-transform duration-300 overflow-y-auto">
+  <aside id="chapters-panel" class="fixed top-0 left-0 h-full w-72 bg-[#0a101c]/95 backdrop-blur-2xl border-r border-white/10 z-50 -translate-x-full overflow-y-auto">
     <div class="p-5">
       <div class="flex items-center justify-between mb-6">
         <h2 class="font-cinzel text-lg text-white">Главы</h2>
-        <button id="close-chapters" class="p-1.5 rounded-lg hover:bg-white/5 text-gray-400">✕</button>
+        <button id="close-ch" class="text-gray-400 hover:text-white">✕</button>
       </div>
-      <div class="space-y-1" id="chapters-list">
-        <button class="chapter-item active w-full text-left px-4 py-3 rounded-xl bg-violet-600/20 border border-violet-500/30" data-chapter="1">
-          <span class="text-xs text-violet-400">Глава I</span>
+      <div class="space-y-1">
+        <button class="ch-item active w-full text-left px-4 py-3 rounded-xl border border-sky-500/30 bg-sky-900/30" data-ch="1">
+          <span class="text-xs text-sky-400">Глава I</span>
           <p class="text-sm text-white mt-0.5">Пробуждение Эфира</p>
         </button>
-        <button class="chapter-item w-full text-left px-4 py-3 rounded-xl hover:bg-white/5 border border-transparent" data-chapter="2">
+        <button class="ch-item w-full text-left px-4 py-3 rounded-xl border border-transparent hover:bg-white/5" data-ch="2">
           <span class="text-xs text-gray-500">Глава II</span>
           <p class="text-sm text-gray-300 mt-0.5">Первый Рассвет</p>
         </button>
-        <button class="chapter-item w-full text-left px-4 py-3 rounded-xl hover:bg-white/5 border border-transparent opacity-50" data-chapter="3" disabled>
-          <span class="text-xs text-gray-600">Глава III</span>
-          <p class="text-sm text-gray-500 mt-0.5">Скоро...</p>
-        </button>
       </div>
     </div>
   </aside>
 
-  <aside id="settings-panel" class="fixed top-0 right-0 h-full w-80 bg-[#0c0b12]/95 backdrop-blur-2xl border-l border-white/10 z-50 transform translate-x-full transition-transform duration-300 overflow-y-auto">
+  <aside id="settings-panel" class="fixed top-0 right-0 h-full w-80 bg-[#0a101c]/95 backdrop-blur-2xl border-l border-white/10 z-50 translate-x-full overflow-y-auto">
     <div class="p-6">
       <div class="flex items-center justify-between mb-8">
-        <h2 class="font-cinzel text-lg text-white">Настройки чтения</h2>
-        <button id="close-settings" class="p-1.5 rounded-lg hover:bg-white/5 text-gray-400">✕</button>
+        <h2 class="font-cinzel text-lg text-white">Настройки</h2>
+        <button id="close-set" class="text-gray-400 hover:text-white">✕</button>
       </div>
-      <div class="mb-8">
+      <div class="mb-7">
         <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Размер текста</label>
         <div class="flex items-center gap-3">
-          <button id="font-decrease" class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 text-lg">A−</button>
-          <input type="range" id="font-size" min="16" max="28" value="19" class="flex-1 accent-violet-500">
-          <button id="font-increase" class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10 text-lg">A+</button>
+          <button id="fs-down" class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10">A−</button>
+          <input type="range" id="fs" min="16" max="28" value="19" class="flex-1 accent-sky-500">
+          <button id="fs-up" class="w-10 h-10 rounded-lg bg-white/5 hover:bg-white/10">A+</button>
         </div>
-        <p class="text-center text-sm text-gray-500 mt-2"><span id="font-size-value">19</span>px</p>
+        <p class="text-center text-sm text-gray-500 mt-1"><span id="fs-val">19</span>px</p>
       </div>
-      <div class="mb-8">
+      <div class="mb-7">
         <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Шрифт</label>
-        <div class="grid grid-cols-1 gap-2">
-          <button class="font-option active px-4 py-2.5 rounded-lg bg-violet-600/20 border border-violet-500/40 text-left text-sm" data-font="'Cormorant Garamond', serif">Cormorant Garamond</button>
-          <button class="font-option px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 hover:border-violet-500/30 text-left text-sm" data-font="'Literata', serif">Literata</button>
-          <button class="font-option px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 hover:border-violet-500/30 text-left text-sm" data-font="'Inter', sans-serif">Inter</button>
+        <div class="space-y-2">
+          <button class="font-option active w-full text-left px-4 py-2.5 rounded-lg border border-sky-500/40 bg-sky-900/20 text-sm" data-font="'Cormorant Garamond', serif">Cormorant Garamond</button>
+          <button class="font-option w-full text-left px-4 py-2.5 rounded-lg border border-white/10 hover:border-sky-500/30 text-sm" data-font="'Literata', serif">Literata</button>
+          <button class="font-option w-full text-left px-4 py-2.5 rounded-lg border border-white/10 hover:border-sky-500/30 text-sm" data-font="'Inter', sans-serif">Inter</button>
         </div>
       </div>
-      <div class="mb-8">
-        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Атмосфера главы</label>
+      <div class="mb-7">
+        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Атмосфера</label>
         <div class="grid grid-cols-2 gap-2">
-          <button class="theme-btn active px-3 py-3 rounded-xl bg-violet-950/50 border border-violet-500/40 text-sm" data-theme="cosmic"><span class="block text-violet-300 mb-1">✦</span>Космос</button>
-          <button class="theme-btn px-3 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/30 text-sm" data-theme="winter"><span class="block text-blue-300 mb-1">❄</span>Зима</button>
-          <button class="theme-btn px-3 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-orange-500/30 text-sm" data-theme="ember"><span class="block text-orange-300 mb-1">🔥</span>Пепел</button>
-          <button class="theme-btn px-3 py-3 rounded-xl bg-white/5 border border-white/10 hover:border-emerald-500/30 text-sm" data-theme="mist"><span class="block text-emerald-300 mb-1">🌫</span>Туман</button>
+          <button class="theme-btn active px-3 py-3 rounded-xl border border-sky-500/40 bg-sky-950/40 text-sm" data-theme="cosmic">✦ Космос</button>
+          <button class="theme-btn px-3 py-3 rounded-xl border border-white/10 hover:border-blue-400/30 text-sm" data-theme="winter">❄ Зима</button>
+          <button class="theme-btn px-3 py-3 rounded-xl border border-white/10 hover:border-orange-400/30 text-sm" data-theme="ember">🔥 Пепел</button>
+          <button class="theme-btn px-3 py-3 rounded-xl border border-white/10 hover:border-cyan-400/30 text-sm" data-theme="mist">🌫 Туман</button>
         </div>
       </div>
-      <div class="mb-8">
-        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Цвет фона</label>
-        <div class="flex gap-2 flex-wrap">
-          <button class="color-swatch w-9 h-9 rounded-full border-2 border-violet-400" style="background:#07060b" data-bg="#07060b"></button>
-          <button class="color-swatch w-9 h-9 rounded-full border border-white/20" style="background:#0c0a14" data-bg="#0c0a14"></button>
-          <button class="color-swatch w-9 h-9 rounded-full border border-white/20" style="background:#0a0f14" data-bg="#0a0f14"></button>
-          <button class="color-swatch w-9 h-9 rounded-full border border-white/20" style="background:#0f0a0a" data-bg="#0f0a0a"></button>
-          <button class="color-swatch w-9 h-9 rounded-full border border-white/20" style="background:#0a0f0c" data-bg="#0a0f0c"></button>
-          <button class="color-swatch w-9 h-9 rounded-full border border-white/20" style="background:#12101a" data-bg="#12101a"></button>
-        </div>
-      </div>
-      <div class="mb-8">
-        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Цвет текста</label>
-        <div class="flex gap-2 flex-wrap">
-          <button class="text-swatch w-9 h-9 rounded-full border-2 border-violet-400" style="background:#e8e4f0" data-text="#e8e4f0"></button>
-          <button class="text-swatch w-9 h-9 rounded-full border border-white/20" style="background:#d4d0e0" data-text="#d4d0e0"></button>
-          <button class="text-swatch w-9 h-9 rounded-full border border-white/20" style="background:#c8d4e0" data-text="#c8d4e0"></button>
-          <button class="text-swatch w-9 h-9 rounded-full border border-white/20" style="background:#e0d4c8" data-text="#e0d4c8"></button>
-          <button class="text-swatch w-9 h-9 rounded-full border border-white/20" style="background:#d0e0d4" data-text="#d0e0d4"></button>
-        </div>
-      </div>
-      <div class="mb-8">
+      <div class="mb-7">
         <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Эффекты</label>
-        <div class="space-y-3">
-          <label class="flex items-center justify-between cursor-pointer">
-            <span class="text-sm">Частицы / Снег / Дым</span>
-            <input type="checkbox" id="toggle-particles" checked class="accent-violet-500 w-5 h-5">
-          </label>
-          <div class="flex items-center justify-between">
-            <span class="text-sm">Интенсивность</span>
-            <input type="range" id="particle-intensity" min="10" max="100" value="50" class="w-28 accent-violet-500">
-          </div>
-        </div>
+        <label class="flex items-center justify-between mb-3">
+          <span class="text-sm">Частицы</span>
+          <input type="checkbox" id="particles" checked class="accent-sky-500 w-5 h-5">
+        </label>
+        <input type="range" id="intensity" min="10" max="100" value="45" class="w-full accent-sky-500">
       </div>
-      <div class="mb-6">
-        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Межстрочный интервал</label>
-        <input type="range" id="line-height" min="1.4" max="2.2" step="0.1" value="1.75" class="w-full accent-violet-500">
+      <div>
+        <label class="text-xs uppercase tracking-wider text-gray-500 mb-3 block">Межстрочный</label>
+        <input type="range" id="lh" min="1.4" max="2.2" step="0.1" value="1.75" class="w-full accent-sky-500">
       </div>
     </div>
   </aside>
 
-  <main id="reader-main" class="relative z-10 h-screen overflow-y-auto pt-16 pb-28 scroll-smooth">
-    <article class="max-w-2xl mx-auto px-5 sm:px-6 py-10">
-      <div class="text-center mb-14">
-        <p class="text-violet-400/70 text-sm tracking-[0.25em] uppercase mb-3" id="chapter-number">Глава I</p>
-        <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl text-white mb-5 leading-tight" id="chapter-title">Пробуждение Эфира</h2>
-        <div class="w-20 h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent mx-auto"></div>
+  <main id="main" class="relative z-10 h-screen overflow-y-auto pt-16 pb-24">
+    <article class="max-w-2xl mx-auto px-5 py-10">
+      <div class="text-center mb-12">
+        <p class="text-sky-400/70 text-sm tracking-[0.2em] uppercase mb-3" id="ch-num">Глава I</p>
+        <h2 class="font-cinzel text-3xl sm:text-4xl text-white mb-4" id="ch-title">Пробуждение Эфира</h2>
+        <div class="w-16 h-px bg-gradient-to-r from-transparent via-sky-500/50 to-transparent mx-auto"></div>
       </div>
-      <div id="text-content" class="reader-text"></div>
-      <div class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between gap-4">
-        <button id="prev-chapter" class="px-4 py-2.5 rounded-full border border-white/10 text-gray-500 text-sm disabled:opacity-40" disabled>← Назад</button>
-        <div class="text-center">
-          <p class="text-xs text-gray-600 mb-1"><span id="current-chapter-num">1</span> / 12</p>
-          <div class="w-24 h-1 bg-white/10 rounded-full overflow-hidden">
-            <div id="chapter-progress" class="h-full bg-violet-500/60 rounded-full transition-all" style="width: 8%"></div>
-          </div>
-        </div>
-        <button id="next-chapter" class="px-4 py-2.5 rounded-full bg-violet-600/20 border border-violet-500/40 hover:bg-violet-600/30 text-violet-200 text-sm transition">Далее →</button>
-      </div>
-      <div class="mt-14 text-center">
-        <p class="text-gray-600 text-sm" id="chapter-end-note">Конец главы</p>
+      <div id="content" class="reader-text"></div>
+      <div class="mt-14 pt-8 border-t border-white/10 flex items-center justify-between">
+        <button id="prev" class="px-4 py-2 rounded-full border border-white/10 text-sm text-gray-500 disabled:opacity-30" disabled>← Назад</button>
+        <span class="text-xs text-gray-600"><span id="cur">1</span> / 2</span>
+        <button id="next" class="px-4 py-2 rounded-full bg-sky-600/20 border border-sky-500/40 text-sky-200 text-sm hover:bg-sky-600/30">Далее →</button>
       </div>
     </article>
   </main>
 
-  <div id="progress-bar" class="fixed bottom-0 left-0 right-0 h-1 bg-white/5 z-40">
-    <div id="progress-fill" class="h-full bg-gradient-to-r from-violet-600 to-purple-500 transition-all duration-150" style="width: 0%"></div>
+  <div class="fixed bottom-0 inset-x-0 h-1 bg-white/5 z-40">
+    <div id="prog" class="h-full bg-gradient-to-r from-sky-500 to-cyan-400 transition-all" style="width:0%"></div>
   </div>
 
-  <script src="js/reader.js"></script>
+  <script>
+    const chapters = {
+      1: {
+        num: "Глава I", title: "Пробуждение Эфира", theme: "cosmic",
+        html: `<p>Эфир заполнял поднебесье. Оно было настолько безграничным, что мы сами казались карликами в этом титаническом мире.</p>
+<p>Мир, в котором белая Луна не была одинока, рядом с ней было ещё десять таких же огромных соседей, и все они отличались по цвету и каждая из них была настолько великолепна и велика, что казалось — каждая из них не просто светится, а распространяет свою ауру по поверхности этой планеты, для которой даже такие махины были карликами.</p>
+<p>Но это было не всё.<br>Кроме десяти главных были сотни и тысячи поменьше, и многие из них уже были не одного конкретного цвета, а связью двух, трёх и более цветов.</p>
+<p>Из-за чего это ночное время казалось скорее не временем тишины и покоя, а церемониальным.<br>Словно на тебя смотрят миллионы чьих-то глаз, оценивающих — достоин ты, или нет.</p>
+<p>Кто-то с жаждой убийства.<br>Кто-то с интересом или пренебрежением.<br>Словно для кого-то это всё игра и забава, а для иных — нечто серьёзное. И именно такую нешуточную и опасную ауру имела главная белая Луна.</p>
+<p>Но медленно, несмотря на масштабы самого титанического мира из возможных, луны ушли за горизонт. Их свет сменился сотнями тысяч солнечных. В той же системе — десять главных, у каждого свой цвет, и миллионы по убыванию в размере, с разной палитрой цветов.</p>
+<p style="color:#fde68a;font-style:italic">Лунный свет сменился солнечным.</p>
+<p>Первые лучи коснулись вершин далёких хребтов, и мир на мгновение замер — будто сам эфир затаил дыхание. Воздух стал плотнее, тяжелее. В нём появился вкус металла и чего-то древнего, почти забытого.</p>
+<p>Там, где ещё мгновение назад царила церемониальная тьма, теперь разливалось мягкое, но неотвратимое сияние. Оно не было похоже на обычный рассвет. Оно было <em>осознанным</em>.</p>
+<p>Я стоял на краю обсидиановой платформы и смотрел, как десять новых светил поднимаются над горизонтом один за другим — каждый своего оттенка. Кроваво-красный. Холодный бирюзовый. Ядовито-зелёный. Золотой, почти ослепительный. Фиолетовый, будто сгусток самой ночи.</p>
+<p>И где-то между ними — едва заметная, почти прозрачная — та, что светила мягче всех. Та, что смотрела прямо на меня.</p>`
+      },
+      2: {
+        num: "Глава II", title: "Первый Рассвет", theme: "ember",
+        html: `<p>Свет не просто осветил мир — он изменил его.</p>
+<p>Там, где раньше лежала холодная тьма, теперь ползли длинные тени. Они были живыми. Двигались не так, как должны двигаться тени от солнца. Они тянулись к источникам света, словно хотели поглотить их.</p>
+<p style="color:#fde68a;font-style:italic">Один из красных солнец вспыхнул ярче. На секунду весь горизонт окрасился в цвет крови и раскалённого металла.</p>
+<p>Я почувствовал тепло на коже. Настоящее, обжигающее. Эфир вокруг начал дрожать — мелкая вибрация, которую скорее чувствуешь костями, чем слышишь.</p>
+<p>Где-то далеко, за линией хребтов, что-то огромное медленно поднялось. Слишком большое, чтобы быть живым существом. Слишком правильное, чтобы быть горой.</p>
+<p>И в этот момент я понял: рассвет здесь — не начало дня.<br>Это начало охоты.</p>
+<p>Белая Луна, даже уйдя за горизонт, всё ещё смотрела. Я чувствовал её взгляд затылком.</p>`
+      }
+    };
+
+    let cur = 1, theme = 'cosmic', particlesOn = true, intensity = 45;
+    const canvas = document.getElementById('fx'), ctx = canvas.getContext('2d');
+    let w, h, parts = [];
+
+    function resize() { w = canvas.width = innerWidth; h = canvas.height = innerHeight; initParts(); }
+    class Part {
+      constructor(t) { this.t = t; this.reset(true); }
+      reset(init) {
+        this.x = Math.random()*w; this.y = init ? Math.random()*h : (this.t==='ember'?h+10:-20);
+        if (this.t==='winter') { this.s=Math.random()*2.5+1; this.vy=Math.random()*1.2+0.4; this.vx=(Math.random()-0.5)*0.8; this.o=Math.random()*0.6+0.2; this.w=Math.random()*6.28; }
+        else if (this.t==='ember') { this.s=Math.random()*2.5+0.8; this.vy=-(Math.random()*1.5+0.5); this.vx=(Math.random()-0.5)*0.6; this.o=1; this.life=1; this.dec=Math.random()*0.01+0.004; }
+        else if (this.t==='mist') { this.s=Math.random()*40+20; this.vy=Math.random()*0.15+0.03; this.vx=(Math.random()-0.5)*0.3; this.o=Math.random()*0.08+0.02; }
+        else { this.s=Math.random()*2+0.5; this.vy=Math.random()*0.4+0.1; this.vx=(Math.random()-0.5)*0.25; this.o=Math.random()*0.45+0.1; this.tw=Math.random()*6.28; }
+      }
+      update() {
+        if (this.t==='winter') { this.w+=0.02; this.x+=Math.sin(this.w)*0.4+this.vx; this.y+=this.vy; if(this.y>h+10)this.reset(); }
+        else if (this.t==='ember') { this.x+=this.vx; this.y+=this.vy; this.life-=this.dec; this.o=this.life*0.8; if(this.life<=0||this.y<-20)this.reset(); }
+        else if (this.t==='mist') { this.x+=this.vx; this.y+=this.vy; if(this.y>h+50)this.reset(); }
+        else { this.y+=this.vy; this.x+=this.vx; this.tw+=0.03; if(this.y>h+10)this.reset(); }
+      }
+      draw() {
+        ctx.save();
+        if (this.t==='winter') {
+          ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,6.28); ctx.fillStyle=`rgba(200,220,255,${this.o})`; ctx.fill();
+        } else if (this.t==='ember') {
+          const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s*2);
+          g.addColorStop(0,`rgba(255,180,80,${this.o})`); g.addColorStop(1,'rgba(180,40,10,0)');
+          ctx.beginPath(); ctx.arc(this.x,this.y,this.s*2,0,6.28); ctx.fillStyle=g; ctx.fill();
+        } else if (this.t==='mist') {
+          const g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.s);
+          g.addColorStop(0,`rgba(150,200,190,${this.o})`); g.addColorStop(1,'rgba(80,140,130,0)');
+          ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,6.28); ctx.fillStyle=g; ctx.fill();
+        } else {
+          const a=this.o*(0.7+0.3*Math.sin(this.tw));
+          ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,6.28); ctx.fillStyle=`rgba(125,211,252,${a})`; ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+    function initParts() {
+      parts=[]; const n=Math.min(Math.floor(intensity/100*110), Math.floor(w*h/12000));
+      for(let i=0;i<n;i++) parts.push(new Part(theme));
+    }
+    function loop() {
+      ctx.clearRect(0,0,w,h);
+      if (particlesOn) parts.forEach(p=>{p.update();p.draw();});
+      requestAnimationFrame(loop);
+    }
+
+    function load(n) {
+      const c = chapters[n]; if(!c) return;
+      cur = n;
+      document.getElementById('content').innerHTML = c.html;
+      document.getElementById('ch-num').textContent = c.num;
+      document.getElementById('ch-title').textContent = c.title;
+      document.getElementById('ch-label').textContent = c.num + ' · ' + c.title;
+      document.getElementById('cur').textContent = n;
+      document.getElementById('prev').disabled = n<=1;
+      document.getElementById('next').disabled = !chapters[n+1];
+      document.querySelectorAll('.ch-item').forEach(b => b.classList.toggle('active', +b.dataset.ch===n));
+      setTheme(c.theme);
+      document.getElementById('main').scrollTo({top:0,behavior:'smooth'});
+    }
+    function setTheme(t) {
+      theme = t;
+      document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.theme===t));
+      const bgs = {cosmic:'#050810', winter:'#0a1218', ember:'#100a08', mist:'#081210'};
+      document.documentElement.style.setProperty('--bg', bgs[t]||'#050810');
+      document.body.style.background = bgs[t]||'#050810';
+      initParts();
+    }
+
+    document.getElementById('btn-set').onclick = () => document.getElementById('settings-panel').classList.add('open');
+    document.getElementById('close-set').onclick = () => document.getElementById('settings-panel').classList.remove('open');
+    document.getElementById('btn-ch').onclick = () => document.getElementById('chapters-panel').classList.add('open');
+    document.getElementById('close-ch').onclick = () => document.getElementById('chapters-panel').classList.remove('open');
+    document.getElementById('btn-fs').onclick = () => {
+      if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(()=>{}); document.body.classList.add('fullscreen'); }
+      else { document.exitFullscreen(); document.body.classList.remove('fullscreen','show-ui'); }
+    };
+    document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) document.body.classList.remove('fullscreen','show-ui'); });
+    document.addEventListener('mousemove', () => {
+      if (!document.body.classList.contains('fullscreen')) return;
+      document.body.classList.add('show-ui');
+      clearTimeout(window._uit);
+      window._uit = setTimeout(() => document.body.classList.remove('show-ui'), 2200);
+    });
+
+    document.getElementById('fs').oninput = e => {
+      document.documentElement.style.setProperty('--font-size', e.target.value+'px');
+      document.getElementById('fs-val').textContent = e.target.value;
+    };
+    document.getElementById('fs-down').onclick = () => { const s=document.getElementById('fs'); s.value=Math.max(16,+s.value-1); s.dispatchEvent(new Event('input')); };
+    document.getElementById('fs-up').onclick = () => { const s=document.getElementById('fs'); s.value=Math.min(28,+s.value+1); s.dispatchEvent(new Event('input')); };
+    document.querySelectorAll('.font-option').forEach(b => b.onclick = () => {
+      document.querySelectorAll('.font-option').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      document.documentElement.style.setProperty('--font', b.dataset.font);
+    });
+    document.querySelectorAll('.theme-btn').forEach(b => b.onclick = () => setTheme(b.dataset.theme));
+    document.getElementById('particles').onchange = e => { particlesOn = e.target.checked; };
+    document.getElementById('intensity').oninput = e => { intensity = +e.target.value; initParts(); };
+    document.getElementById('lh').oninput = e => document.documentElement.style.setProperty('--line-height', e.target.value);
+    document.getElementById('prev').onclick = () => { if(cur>1) load(cur-1); };
+    document.getElementById('next').onclick = () => { if(chapters[cur+1]) load(cur+1); };
+    document.querySelectorAll('.ch-item').forEach(b => b.onclick = () => { load(+b.dataset.ch); document.getElementById('chapters-panel').classList.remove('open'); });
+    document.getElementById('main').onscroll = () => {
+      const el = document.getElementById('main');
+      const p = el.scrollTop / (el.scrollHeight - el.clientHeight) * 100;
+      document.getElementById('prog').style.width = (p||0)+'%';
+    };
+    document.addEventListener('keydown', e => {
+      if (e.key==='Escape') { document.getElementById('settings-panel').classList.remove('open'); document.getElementById('chapters-panel').classList.remove('open'); if(document.fullscreenElement) document.exitFullscreen(); }
+      if ((e.key==='f'||e.key==='а') && !e.ctrlKey) document.getElementById('btn-fs').click();
+      if (e.key==='ArrowRight' && chapters[cur+1]) load(cur+1);
+      if (e.key==='ArrowLeft' && cur>1) load(cur-1);
+    });
+
+    const params = new URLSearchParams(location.search);
+    const start = +(params.get('ch')||1);
+    resize(); load(chapters[start]?start:1); loop();
+    addEventListener('resize', resize);
+  </script>
 </body>
 </html>
